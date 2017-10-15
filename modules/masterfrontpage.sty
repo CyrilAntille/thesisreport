@@ -1,0 +1,368 @@
+% Package for creating front pages for Master's theses.
+% Implemented by Martin Helsø (martibhe@math.uio.no).
+% Version 2016-02-19.
+
+%% Identification part:
+
+\NeedsTeXFormat{LaTeX2e}[1994/12/01]
+
+\ProvidesClass{modules/masterfrontpage}
+
+%% Standard headers:
+
+\DeclareOption{american} { \def \MFP@lang {eng} }
+\DeclareOption{english}  { \def \MFP@lang {eng} }
+\DeclareOption{UKenglish}{ \def \MFP@lang {eng} }
+\DeclareOption{USenglish}{ \def \MFP@lang {eng} }
+\DeclareOption{norsk}    { \def \MFP@lang {bm}  }
+\DeclareOption{nynorsk}  { \def \MFP@lang {nn}  }
+
+%% Purpose of document:
+
+\DeclareOption{print}
+{ 
+    \def \MFP@indent {11 mm} 
+    \def \MFP@bump   { 2 mm}
+}
+\DeclareOption{web}  
+{ 
+    \def \MFP@indent { 0 mm}
+    \def \MFP@bump   { 0 mm}    
+}
+
+%% Length of titles:
+
+\DeclareOption{OrdinaryTitle}
+{ 
+    \def \MFP@title {Ordinary}
+    \def \MFP@titlesize {\fontsize{32}{35pt}} 
+}
+\DeclareOption{LongTitle}
+{ 
+    \def \MFP@title {Long}
+    \def \MFP@titlesize {\fontsize{24}{27pt}}
+    %\def \MFP@titlesize {\fontsize{28}{31pt}}
+}
+\DeclareOption{ExtraLongTitle}
+{
+    \def \MFP@title {ExtraLong} 
+    \def \MFP@titlesize {\fontsize{17}{20pt}}
+}
+
+%% Page following front page:
+
+\DeclareOption{Colophon}     { \def \MFP@secondpage {colophon} }
+\DeclareOption{BlankPage}    { \def \MFP@secondpage {blank}    }
+\DeclareOption{OnlyFrontpage}{ \def \MFP@secondpage {}         }
+
+
+%% Standard options:
+
+\ExecuteOptions{english}
+\ExecuteOptions{print}
+% \ExecuteOptions{OrdinaryTitle}
+\ExecuteOptions{LongTitle}
+\ExecuteOptions{Colophon}
+\ProcessOptions*
+
+%% Initial code:
+
+\RequirePackage[T1]{fontenc}
+\RequirePackage{fix-cm}
+\RequirePackage{calc}
+\RequirePackage{eso-pic}
+\RequirePackage{picture}
+\RequirePackage{xifthen}
+\RequirePackage{tikz}
+\RequirePackage[absolute]{textpos}
+
+\definecolor{uioblack}{cmyk}{0, 0, 0, 1}
+\definecolor{uiowhite}{cmyk}{0, 0, 0, 0}
+
+\newlength{\MFPlogox}
+\newlength{\MFPlogoy}
+\newlength{\MFPtextx}
+\newlength{\MFPtexty}
+\newlength{\MFPtextlength}
+\newlength{\MFPapollonx}
+
+\setlength{\MFPlogox}{18.9 mm + \MFP@indent}
+\setlength{\MFPlogoy}{\paperheight - 29.6 mm}
+\setlength{\MFPtextx}{41.9 mm + \MFP@indent} 
+\setlength{\MFPtexty}{\paperheight - 100 mm}
+\setlength{\MFPtextlength}{\paperwidth - \MFPtextx - \MFPlogox + \MFP@indent} 
+\setlength{\MFPapollonx}{25 mm + \MFP@indent}
+
+%% The main command:
+
+\@ifclassloaded{memoir}
+{
+    \newcommand{\masterfrontpage}
+    {
+        \begin{titlingpage}
+            \AddToShipoutPictureBG*{\MFP@print@background}
+            \AddToShipoutPictureFG*{\MFP@print@title}
+            \null
+        \end{titlingpage}
+    }
+}
+{
+    \newcommand{\masterfrontpage}
+    {
+        \begin{titlepage}
+            \AddToShipoutPictureBG*{\MFP@print@background}
+            \AddToShipoutPictureFG*{\MFP@print@title}
+            \null
+        \end{titlepage}
+        
+        \ifthenelse{ \equal{\MFP@secondpage}{colophon} }
+        {
+            \MFP@colophon
+        }
+        {
+           \ifthenelse{ \equal{\MFP@secondpage}{blank} }
+           {
+               \MFP@blankpage
+           }
+           {}
+        }
+    }
+}
+
+%% Additional commands:
+
+\newcommand{\subtitle}[1]{ \def \MFP@subtitle{#1} }
+\subtitle{}
+
+%% Include the title page background:
+
+\newcommand{\MFP@print@background}
+{
+    \put(-3, -3)
+    {
+        \includegraphics
+        {masterfrontpage-images/masterfrontpage-background.pdf}
+    }
+    
+    \begin{tikzpicture}[remember picture, 
+                        overlay, 
+                        shift = {(current page.north west)}]
+        \fill[uioblack] 
+        (0, 0) rectangle (\paperwidth, -3.5cm);
+        \fill[uiowhite, opacity = 0.8]
+        (0, -3.5 cm) rectangle (\paperwidth, -10 cm);
+    \end{tikzpicture}
+    
+    \put(\MFPapollonx, 25 mm + \MFP@bump)
+    {
+        \includegraphics[width = 27mm]
+        {masterfrontpage-images/masterfrontpage-apollon.pdf}
+    }
+    
+    \put(\MFPlogox, \MFPlogoy)
+    {
+        \includegraphics[scale = 0.6]
+        {masterfrontpage-images/masterfrontpage-logo-\MFP@lang.pdf}
+    }
+}
+
+%% Include the title, subtitle, author and date:
+
+\newcommand{\MFP@print@title}
+{
+
+    
+        \put(\MFPtextx, \MFPtexty)
+        {
+            \vbox to 65 mm
+            {
+                \hsize = \MFPtextlength
+                \raggedright
+                
+                % Redefinition of standard \LaTeX command because
+                % the font package 'bera' mangles it!
+                \ifthenelse{ \isundefined{\fveLaTeX} }{}
+                {
+                    \DeclareRobustCommand{\mn@LaTeX}
+                    {
+                        L\kern-.36em
+                        {
+                            \sbox\z@ T
+                            \vbox to\ht\z@
+                            {
+                                \hbox
+                                {
+                                    \check@mathfonts
+                                    \fontsize\sf@size\z@
+                                    \math@fontsfalse\selectfont
+                                    A
+                                }
+                                \vss
+                             }
+                        }
+                        \kern-.15em
+                        \TeX
+                    }
+                    \let \LaTeX = \mn@LaTeX
+                }
+                
+                \vfill   
+
+                \fontfamily{\MFP@font}
+                \MFP@titlesize
+                \selectfont 
+                \bfseries 
+                \@title
+                
+                \newlength{\MFP@titlelength}
+                \settowidth{\MFP@titlelength}{\@title}
+
+				\ifthenelse
+				{ 
+				    \equal{\MFP@title}{Ordinary} 
+				    \AND 
+				    \lengthtest{\MFP@titlelength < \hsize}
+				}
+  			    {
+                    \def \MFP@skip{1.5 em}				
+				}
+				{
+				    \def \MFP@skip{1 em}
+				}
+				
+                \vskip 0.5ex
+
+                \normalfont
+                \fontfamily{\MFP@font}
+                \fontsize{17}{20pt}
+                \selectfont
+                \MFP@subtitle
+
+                \vskip \MFP@skip
+                {
+                    \bfseries 
+                    \@author
+                }
+                \\[0.1ex] 
+                \MFP@kind
+                \vfill
+            }
+        }
+}
+
+%% Find the best font:
+
+\newcommand{\MFP@font}{phv}           % Helvetica is always available, but use
+\IfFileExists{t1ua1.fd}{ \renewcommand{\MFP@font}{ua1} }{} % Arial if possible.
+
+%% Determine the term (as in "Autumn 2015"):
+
+\newcounter{MFP@cur@year}   
+\newcounter{MFP@cur@month}
+\setcounter{MFP@cur@year} { \the\year  }
+\setcounter{MFP@cur@month}{ \the\month }
+
+\ifthenelse{ \theMFP@cur@month < 7 }
+{
+    \newcommand{\MFP@term@eng}{Spring}
+    \newcommand{\MFP@term@bm} {v\aa ren}
+    \newcommand{\MFP@term@nn} {v\aa ren}
+}
+{
+    \newcommand{\MFP@term@eng}{Autumn}
+    \newcommand{\MFP@term@bm} {h\o sten}
+    \newcommand{\MFP@term@nn} {hausten}
+}
+    
+\newcommand{\MFP@term}{ \csname MFP@term@\MFP@lang\endcsname }
+\newcommand{\MFP@year}{ \arabic{MFP@cur@year}                }
+
+%% Specify "Master's Thesis" in the correct language:
+
+\newcommand{\MFP@thesisname@eng}{Master's Thesis}
+\newcommand{\MFP@thesisname@bm} {Masteroppgave}
+\newcommand{\MFP@thesisname@nn} {Masteroppg\aa ve}
+
+%% Define a suitable document kind, like "Master's Thesis, Spring 2015":
+
+\newcommand{\MFP@kind}
+{
+    	\csname MFP@thesisname@\MFP@lang\endcsname,~\MFP@term~\MFP@year
+}
+
+%% Specify colophon in the correct language:
+
+\newcommand{\MFP@colophon@eng}
+{
+    \begin{textblock*}{130.445 pt}(\paperwidth - 130.445 pt - 35 mm, 35 mm)
+        \fontfamily{lmr}
+        \fontshape{n}
+        \fontsize{10}{12pt}
+        \selectfont 
+    	\noindent Cover design by Martin Hels\o
+    \end{textblock*}
+
+    \begin{textblock*}{12.6 cm}(35 mm, \paperheight - 44.83318 pt - 35 mm)
+        \fontfamily{lmr}    
+        \fontshape{n}
+        \fontsize{10}{12pt}
+        \selectfont
+        \noindent The front page depicts a section of the root system of the exceptional Lie~group~\( E_8 \), projected into the plane. Lie groups were invented by the Norwegian mathematician Sophus Lie (1842\kern0.7pt--1899) to express symmetries in differential equations and today they play a central role in various parts of mathematics.   
+    \end{textblock*}
+}
+
+\newcommand{\MFP@colophon@bm}
+{
+    \begin{textblock*}{132.58415 pt}(\paperwidth - 132.58415 pt - 35 mm, 35 mm)
+        \fontfamily{lmr}
+        \fontshape{n}
+        \fontsize{10}{12pt}
+        \selectfont 
+        \noindent Forsidedesign av Martin Hels\o
+\end{textblock*}
+
+    \begin{textblock*}{11.7 cm}(35 mm, \paperheight - 44.83318 pt - 35 mm)
+        \fontfamily{lmr}
+        \fontshape{n}
+        \fontsize{10}{12pt}
+        \selectfont 
+        \noindent Forsiden viser et utsnitt av rotsystemet til den eksepsjonelle liegruppen~\( E_8 \), projisert ned i planet. Liegrupper ble oppfunnet av den norske matematikeren Sophus Lie (1842\kern0.7pt--1899) for \aa\ uttrykke symmetriene til differensiallikninger og spiller i dag en sentral rolle i flere deler av matematikken.
+    \end{textblock*}  
+}
+
+\newcommand{\MFP@colophon@nn}
+{
+    \begin{textblock*}{140.91714 pt}(\paperwidth - 140.91714 pt - 35 mm, 35 mm)
+    	\fontfamily{lmr}
+    	\fontshape{n}
+    	\fontsize{10}{12pt}
+    	\selectfont 
+        \noindent Framsidedesign av Martin Hels\o
+    \end{textblock*}
+
+    \begin{textblock*}{11.9 cm}(35 mm, \paperheight - 44.88889 pt - 35 mm)
+        \fontfamily{lmr}    
+        \fontshape{n}
+        \fontsize{10}{12pt}
+        \selectfont
+        \noindent Framsida viser eit utsnitt av rotsystemet til den eksepsjonelle lie\-gruppa \( E_8 \), projisert ned i planet. Liegrupper vart funne opp av den norske matematikaren Sophus Lie (1842\kern0.7pt--1899) for \aa\ uttrykkje symmetriane til differensiallikningar og spelar i dag ei sentral rolle i fleire delar av matematikken.    
+    \end{textblock*}
+}
+%% Other utilities:
+
+\newcommand{\MFP@colophon}
+{
+    \thispagestyle{empty}
+    \csname MFP@colophon@\MFP@lang\endcsname
+    \null
+    \newpage
+}
+
+\newcommand{\MFP@blankpage}
+{
+    \thispagestyle{empty}
+    \null
+    \newpage
+}
+    
+\endinput

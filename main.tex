@@ -1,0 +1,53 @@
+\documentclass[a4paper,UKenglish]{modules/ifimaster}
+%\documentclass[UKenglish]{modules/ifimaster}  %% ... or USenglish or norsk or nynorsk
+\usepackage[utf8]{inputenc}           %% ... or latin1 or applemac
+\usepackage[T1]{fontenc,url}
+\urlstyle{sf}
+\usepackage{babel,textcomp,csquotes,modules/duomasterforside,varioref,graphicx}
+%\usepackage[backend=biber,style=numeric-comp]{biblatex}
+\usepackage{modules/masterfrontpage,amsmath}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage{natbib}
+%\bibliographystyle{unsrtnat}
+\bibliographystyle{apalike}
+
+
+%\addbibresource{tex/refs.bib}
+
+\author{Cyril Antille - \today}
+\title{The effect of tissue motion on multibeam IAA in medical ultrasound imaging}
+
+\begin{document}
+    \masterfrontpage
+    
+    %\duoforside[dept={Department of Informatics},   %% ... or your department
+    %  program={Network and system administration},  %% ... or your programme
+    %  short]                                        %% ... or long
+    
+    \frontmatter{}
+    %\par\vspace*{.35\textheight}{\centering Dedicated to someone special\par}
+    \include{tex/acknowledgement}
+    \include{tex/abstract}          % include the abstract
+    
+    \tableofcontents{}
+    \listoffigures{}
+    \listoftables{}
+    
+    \mainmatter{}
+    \include{tex/introduction}
+    \include{tex/background1}
+    \include{tex/background2}
+    \include{tex/methods}
+    \include{tex/experiments}
+    \include{tex/results_1}
+    \include{tex/results_2}
+    %\include{tex/results_3}
+    \include{tex/results_4}
+    \include{tex/conclusions}
+    
+    \backmatter{}
+    %\appendix
+    %\include{tex/appendix1}
+    \bibliography{mybib}
+\end{document}

@@ -1,0 +1,62 @@
+\chapter{Introduction}
+
+Medical ultrasound imaging is a non-invasive technique that provides a visual representation of internal body elements. It typically consists of using a probe to transmit directional beams and record their echoes backscattered from the imaged body elements. 
+Beams are physically created from multiple transducers sending the same signal pulse with different time delays in order to result in constructive interference at a given point of focus and hopefully in destructive interference in other directions.
+A similar approach is done on the recorded data. Given a point of focus, the data recorded by each transducer can be time-delayed such that potential signals coming from that focus point are aligned and can be added up coherently if summing the data recorded by all transducers.
+
+The algorithms used for beam transmission and recording are mostly referred to as \textit{beamformers}. In medical ultrasound imaging, many beamformers have been proposed over the years. Most of them work in the same way for beam transmission and recording, but the major difference between them comes from how the recorded data is combined.
+Given the set of data recorded by all transducers after a beam transmit, each transducer can be given a different time-delay and amplitude weight values.
+Conventional beamformers work very similarly to parabolic dishes for antennas. A pre-defined set of amplitude weights and time delays defines the \textit{aperture} of the array, which in that analogy corresponds to the shape of the parabolic dish. The set of time delays also defines the focus point of the array. The major advantage of digital beamformers over parabolic dishes is that they are not constrained to a single physical shape and focus point. A digital array has the ability to have simultaneously multiple focus points on reception simply by assigning different sets of time delays to the same recorded data.
+The Delay-And-Sum (DAS) beamformer is a conventional beamformer that, as its name indicates, simply builds an image sample by time delaying the recorded data to focus the array towards the corresponding position and sum the time-delayed data. This algorithm is conceptually and computationally simple, very reliable and still very much used to this day. For those reasons, it is the beamformer of reference for many studies and this thesis is no exception.
+
+Another major type of digital beamformers, often referred to as \textit{adaptive} beamformers, emerged in the 60s as 'high-resolution' beamformers (\cite{Capon}). Their main difference with conventional beamformers is that, instead of using pre-defined amplitude weights, adaptive beamformers have the ability of adapting their aperture to the perceived wavefield. This ability allows the beamformers to generally form narrower receive beams and achieve higher resolution than conventional beamformers. Such beamformers are however generally less reliable, more computationally complex and less intuitive to use than conventional beamformers.
+Some of the early concerns such beamformers faced included their notable sensitivity to:
+\begin{enumerate}
+    \item Signal cancellation in the presence of coherent signals (\cite{spatial_smoothing})
+    \item Visible artifacts in the presence of motion in the imaged medium (\cite{Asen_shift_invariance})
+    \item High beam density requirements due to narrow receive beams
+    \item High computational complexity prohibiting real-time ultrasound imaging
+    \item High configuration complexity
+\end{enumerate}
+\noindent
+High-resolution beamformers have been, and still are, a great source of academical interest as possible alternative to the widely used conventional beamformers. 
+In industry, they have however for a long time mainly been used in passive systems, where transducers do not transmit signals, but record potential signals from sources in the imaged medium. The main reason that adaptive beamformers were not much used in active systems is due to their sensitivity to coherent signals.
+Their use in medical ultrasound imaging only started in beginning of the 2000s and a majority of commercial ultrasound imaging systems still prefer conventional beamformers to the adaptive ones.
+
+One of the oldest and most known adaptive beamformers is the Capon, also known as minimum variance distortionless response (MV or MVDR), beamformer introduced by \cite{Capon}.
+Different approaches have been proposed over time to solve or limit the effects of one issue or another.
+In this thesis, some of those MV improvements are retraced and used.
+
+An alternative approach to adaptive beamforming known as the Iterative Adaptive Approach (IAA) has recently been introduced to ultrasound imaging (\cite{Jensen_IAA}).
+IAA has shown to yield promising results concerning high resolution capability and low configuration complexity. It has however only been studied with stationary images so far. This thesis aims to explore the effects of tissue motion on the IAA approach and compare its performances to the DAS and Capon beamformers regarding the for-mentioned concerns for adaptive beamformers.
+
+The theoretical goal of forming directional beams is to radiate energy towards a specific point or direction without radiating energy towards other directions. In practice, it is not possible to do it perfectly due to the omnidirectional nature of wave propagation. This means that, for a single transmit beam, the recorded wavefield does not only hold information about potential scatterer points at the transmit beam focus point, but also in other directions.
+A lot of beamformers treat this energy leakage as noise and typically build image samples based on their nearest transmit beam trajectory. Such beamformers are often referred to as \textit{singlebeam} beamformers.
+Another approach to building image samples is to combine the information contained in multiple beams and use this energy leakage to that purpose.
+The beamformers based on this approach are often referred to as \textit{multibeam} beamformers.
+
+Both conventional and adaptive beamformers can be implemented as multibeam beamformers. The IAA beamformers used in this thesis are built as multibeam beamformers. Their performances with the presence of motion in the imaged medium are compared to those of the DAS and MV beamformers. Both DAS and MV are implemented as singlebeam algorithms in order to provide results and analysis comparable to existing studies.
+
+
+Tissue motion in ultrasound imaging is not a new concept and is known to possibly cause visible artifacts in the beamformed images. \cite{Asen_shift_invariance} showed with the MV beamformer that lateral motion of elements in the imaged medium can result in their apparent amplitude or size varying from frame to frame. This effect is caused by angular undersampling and can potentially result in medium elements, or scatterer points, to visibly appear or disappear from one frame to another.
+One of our main objective is to provide a similar analysis on the IAA beamformers, as well as for the DAS and MV beamformers for comparison.
+
+A scatterer point's motion is often seen as merely a shift in its position from one frame to another. This representation would be accurate if the image acquisition of a single frame was instantaneous.
+Obviously image acquisition is not instantaneous, which means that tissue motion can potentially induce artifacts within a single frame as well.
+That is one aspect of motion that multibeam beamformers are expected to be more sensitive to than singlebeam beamformers, since they combine information from multiple, and potentially all, transmit beams for every image sample.
+
+In this thesis, we analyze the effects of motion both within and between frames.
+Even though the analysis done on the IAA beamformers is the most novel part of the thesis, we chose not to solely focus on them, but to pay equal attention to the DAS and MV beamformers. We believe that this approach provides a major confidence factor to the novel results and a very instructive journey into ultrasound imaging in general.
+
+Chapter \ref{chap:background} provides a short introduction to ultrasound imaging and its applications in the medical domain.
+After some necessary explanations on signal propagation and the concept of beamforming, it gives a presentation of conventional and adaptive beamforming along with several robustification methods.
+Each of the beamformers used in this thesis are presented and thoroughly explained in this chapter.
+
+All the experiments done in this thesis are simulations run in MATLAB with the \textit{Field II Simulation Program} (\cite{Field_II,Field_II_ext}).
+Chapter \ref{chap:material} describes how the simulations are made and presents the choice of parameters for the simulated ultrasound probe, imaged medium and beamformers used.
+
+Chapter \ref{chap:experiments} presents the experiments run in this thesis and their expected output.
+Chapter \ref{chap:results} contains the results of those experiments along with our analysis of those results.
+Since a lot of our experiments are heavily correlated, and some experiments require the analysis of other ones, we have chosen to merge our results and discussion of those into a single chapter.
+Finally, Chapter \ref{chap:conclusion} provides a short summary of our findings as well as a few ideas for possible continuations of this thesis.
+
