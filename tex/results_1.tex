@@ -27,7 +27,7 @@ Notice that the points' range varies with angular shift so that they always rema
 
 For each raw image, all four beamformers presented in Section \ref{sec:beamform_param} are used to produce a different beamformed image. As example of beamformed images, 2 of the 17 DAS beamformed frames are displayed in Figure \ref{fig:DAS_frame}, one with the scatterer points aligned with a beam trajectory ($0~$mm azimuth) and the other with the scatterer points in between two beams ($1.2~$mm and $1.65~$mm azimuth). Both scatterer points have lower apparent gain in Figure \ref{fig:DAS_frame2} than in Figure \ref{fig:DAS_frame1}.
 Note that all the beamformed images displayed in this thesis are interpolated to yield smoother displays.
-Although image interpolation is common practice before display, it is not applied to any the raw data in order to avoid any potential artifact that could disturb the analysis.
+Although image interpolation is common practice before display, it is not applied to the raw data in order to avoid any potential artifact that could disturb the analysis.
 
 \begin{figure}[ht]
     \centering
@@ -79,7 +79,7 @@ A final observation is that scalloping loss is more severe at $40~$mm radius tha
 In order to confirm that hypothesis, we set up an experiment similar to the previous one with a single scatterer point $s_1$ at various distances from the array, ranging from $36$ to $56~$mm radius.
 For every given radius, we create two frames; one with $s_1$ aligned with the array's center transmit beam, at $0^\circ$ angle, and another frame with $s_1$ shifted along the same radius value so that it is placed exactly in between two beams.
 For each beamformer and radius value, the scatterer point's recorded gain difference between the two frames defines its maximum scalloping loss.
-The results of that experiment, displayed in Figure \ref{fig:loss_vs_range}, confirm the hypothesis that the scalloping loss is most severe at the array's focal distance ($40~$mm radius).
+The results of that experiment, displayed in Figure \ref{fig:loss_vs_range}, follow the hypothesis that the scalloping loss is most severe at the array's focal distance ($40~$mm radius).
 The magnitude of scalloping loss experienced by the IAA approaches are again lower or roughly equal to that of DAS.
 \begin{figure}[ht]
     \centering
@@ -106,7 +106,7 @@ Scalloping loss can obviously also be attenuated by simply increasing $b_{tr}$, 
 The transmit beam density could be set even lower by increasing their width, but this would result in a resolution loss, as explained in Section \ref{sec:frames_motion}. 
 
 As expected from Figures \ref{fig:loss_vs_shift} and \ref{fig:loss_vs_range}, the MV beamformer requires a much higher beam density than the other beamformers.
-At the end of this section, we show an extension of the MV beamformer with higher beam densities until invisible scalloping loss is achieved.
+At the end of this section, we show an extension of Figure \ref{fig:loss_vs_range} for the MV beamformer with higher beam densities until invisible scalloping loss is achieved.
 As expected from the previous experiments, the IAA-MB approaches are experiencing lower scalloping loss than DAS at low beams densities ($b_{re} < 35$ for IAA-MBSB and $b_{re} < 31$ for IAA-MBMB), but experience higher scalloping loss at higher beams densities. They require a higher beams density that DAS to avoid visible scalloping loss. This shows that the multibeam approach is good at attenuating major scalloping losses, by combining the information contained in several beams. However, since the IAA approaches are high-resolution beamformers, any remaining scalloping loss not corrected by the multibeam approach can be of higher magnitude than DAS due to the difference in their steered response mainlobe width.
 
 \begin{figure}[ht]
@@ -160,8 +160,8 @@ This can easily be explained by the adaptive nature of the beamformers steered r
 \end{figure}
 
 The required number of receive beams for each beamformer is summarized in Table \ref{table:num_beams}. The numbers for the MV beamformer are obtained from extending $b_{re}$ up to 981. An extension of Figures \ref{fig:loss_vs_beams} and \ref{fig:loss_vs_beams_speckle} for the MV beamformer is displayed in Figure \ref{fig:loss_vs_beams_ext}.
-It is worth mentioning that 981 beams for 35 degrees coverage is well above typical beam densities and, even assuming that perfect PRB with $b_{re} > 15 \cdot b_{tr}$ is doable, such a high number of receive beams may cause significant computational delays.
-In practice, the required receive beam density may have to be reduced. This can be achieved to the cost of reduced resolution by for example increasing the diagonal load and/or by creating wider receive beams.
+It is worth mentioning that 981 beams for 35 degrees coverage is well above typical beam densities and, even assuming that perfect PRB with $b_{re} > 15 \cdot b_{tr}$ is feasible, such a high number of receive beams may cause significant computational delays.
+In practice, the required receive beam density may have to be reduced. This can be achieved to the cost of reduced resolution by for example increasing the diagonal load and/or by creating wider beams.
 
 \begin{figure}[ht]
     \centering
@@ -187,7 +187,7 @@ In practice, the required receive beam density may have to be reduced. This can 
 \end{table}
 
 As explained in Section \ref{sec:frames_motion}, the number of transmit beams has an impact on the beamformer's maximum frame rate. With $b_{tr} = 65$, the acquisition time of a single image can be obtained from Equation (\ref{eq:acquisition_time}): $t_{im} = 2 \cdot 0.15 \cdot 65 / 1500 = 13~$ms. In terms of frame rate (Equation (\ref{eq:frame_rate})), this results in a maximum of $f_{im} = 10^4 / (2 \cdot 65) = 76.9$ frames per second.
-It is however important to mention that all images produced in this thesis are relatively small, only $2.5~$cm range and $35^\circ$ angular extent, and only are only produced with beams focused at the same radius ($40~$mm). In many applications, bigger images are produced by creating beams with various focal radius. Many applications create images by sequentially transmitting and recording focused beams with a constant focal radius, such as done in this thesis, and repeat the sequence with a new focal radius. Each sequence is often referred to as a \textit{line of focus}. For images with multiple lines of focus, the maximum frame rate can be estimated to that of an image with single line of focus divided by the number of lines of focus.
+It is however important to mention that all images produced in this thesis are relatively small, only $2.5~$cm range and $35^\circ$ angular extent, and are produced with all beams focused at the same radius ($40~$mm). In many applications, bigger images are produced by creating beams with various focal radii. Many applications create images by sequentially transmitting and recording focused beams with a constant focal radius, such as done in this thesis, and repeat the sequence with a new focal radius. Each sequence is often referred to as a \textit{line of focus}. For images with multiple lines of focus, the maximum frame rate can be estimated to that of an image with single line of focus divided by the number of lines of focus.
 
 
 \iffalse

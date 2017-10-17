@@ -5,19 +5,21 @@ One of the most widely used programs for ultrasound imaging simulations is the \
 
 \section{Simulation parameters}
 \label{sec:sim_param}
-In all the simulations, the simulated ultrasound probe consists of a linear array of 96 transducers all transmitting at $f_c = 3~$MHz center frequency with a bandwidth of $2.3~$MHz (77\%). They are also all serving the dual function of recording ultrasound data at the same center frequency and bandwidth. The recorded data is sampled at $90~$MHz sampling frequency. Each transducer has a height of $10~$mm and a width of $0.24~$mm. The transducer's \textit{pitch}, defined as the distance from a transducer's center to the center of its neighboring one, is set to $d = \lambda / 2~$m, where $\lambda$ is the wavelength of the transducer's center frequency.
-The speed of ultrasound propagation $c$ in a medium can vary significantly depending, among other parameters, on the imaged medium temperature and content, whether it is fatty or non-fatty tissue, bone, liver, any other organ or a combination of those. \cite{Ultrasound_propagation} showed that $c$ is most often lies in the $1400-1600~$m/s range. In this thesis, $c$ is set to $1500~$m/s.
+In all the simulations, the simulated ultrasound probe consists of a linear array of 96 transducers all transmitting at $f_c = 3~$MHz center frequency with a bandwidth of $2.3~$MHz (77\%). They are also all serving the dual function of recording ultrasound data at the same center frequency and bandwidth. The recorded data is sampled at $90~$MHz sampling frequency. Each transducer has a height of $10~$mm and a width of $0.24~$mm. The transducer's \textit{pitch}, defined as the distance from a transducer's center to the center of its neighboring one, is set to $d = \lambda / 2$, where $\lambda$ is the wavelength of the transducer's center frequency.
 
+The speed of ultrasound propagation $c$ in a medium can vary significantly depending, among other parameters, on the imaged medium temperature and content, whether it is fatty or non-fatty tissue, bone, liver, any other organ or a combination of those. \cite{Ultrasound_propagation} showed that $c$ is most often lies in the $1400-1600~$m/s range. In this thesis, $c$ is set to $1500~$m/s.
 The transducer's pitch is then $d = \lambda / 2 = c / (2 \cdot f_c) = 1500 / (2\cdot3\cdot10^6) = 0.25~$mm. With a \textit{kerf}, or distance between transducers, of $0.01~$mm, the transducer's width is then of $0.24~$mm (pitch minus kerf) and the total length of the array is $96 \cdot 0.25 = 24~$mm.
 
-A signal pulse $s(t)$ is created by simulating an excitation in the form of alternative voltage of period $T = 2\pi$:
+A signal pulse $s(t)$ is created by simulating an excitation in the form of alternating voltage:
 \begin{equation}
     s(t) = \left \{ \begin{tabular}{cc}
-        1, & $0 \leq t < \pi$ \\
-        -1, & $\pi \leq t < 2\pi$
-    \end{tabular}\right..
+        1, & $0 \leq t < T/2$ \\
+        -1, & $T/2 \leq t < T$
+    \end{tabular}\right.,
 \end{equation}
 \noindent
+where $T$ is the signal's period and is equal to $1 / f_c \approx 0.33~\mu$s.
+
 The transducer's output pulse is defined by the excitation function convolved with the transducer's impulse response $h_t(t)$.
 In this thesis, $h_t(t)$ is implemented as a bandpass filter around the pulse's center frequency ($3~$MHz) using a Blackman window (\cite{blackman}). The same impulse response is used for signals reception ($h_r(t) = h_t(t)$). The medium and backscatterer points are assumed to be ideal in the sense that they do not alter the signals properties. This means that $s(t) * h_m(t) * h_p(t) * h_m(t) = s(t)$, where $h_m(t)$ is the medium's impulse response and $h_p(t)$ the one of the scatterer point. The medium's impulse response is applied twice since the signal is traveling from the array to the scatterer point and back.
 Under those conditions, a signal pulse $s(t)$ sent by a transducer, backscattered by a point in the medium, and recorded by a transducer can be defined as:
@@ -37,8 +39,8 @@ where $*$ is the convolution operator. The perceived pulse $y(t)$ is illustrated
 
 The imaged section is chosen to span from $-17.5$ to $17.5^\circ$ from the array's normal vector, and $35$ to $60~$mm range to it. The aperture default focus is set to $40~$mm radius. Note that this thesis differentiates the terms \textit{radius}, which defines the absolute distance to the array center in any direction, and \textit{range}, which defines the radius projection onto the array's normal plane. A point's \textit{azimuth} is its radius projection onto the array's parallel plane.
 
-All transmit or receive beams are focused at the same radius ($40~$mm) and distributed uniformly along the imaged azimuth sector. In other words, the beams distribution is uniform in $sin(\theta_b)$, where $\theta_b$ is the direction angle of beam $b$ from the array center.
-The beams with outermost direction $\theta_b$ from the array center are set to $sin(\theta_b)$ = -0.3 and 0.3.
+All transmit or receive beams are focused at the same radius ($40~$mm) and distributed uniformly along the imaged azimuth sector. In other words, the beams distribution is uniform in $\sin(\theta_b)$, where $\theta_b$ is the direction angle of beam $b$ from the array center.
+The beams with outermost direction $\theta_b$ from the array center are set to $\sin(\theta_b)$ = -0.3 and 0.3.
 For any given range $r$, the azimuth distance $d_B$ between two transmit beams is a constant value:
 \begin{align}
     d_B = 0.3 \cdot r / \lfloor b_{tr} / 2 \rfloor,
@@ -50,7 +52,7 @@ where $b_{tr}$ is the number of beams used to illuminate the imaged sector and $
 Unless specified otherwise, all beamformed images are built by sequentially transmitting beams in various directions and, for each transmit beam, focusing the array towards that same direction during receive. The number of receive beams $b_{re}$ is then equal to the number of transmit beams $b_{tr}$. This approach is often referred to as single-line acquisition (SLA).
 In practice, a lot of beamformers are configured to use parallel-receive beamfoming (PRB), also known as multiple-line acqusition (MLA), presented in Section \ref{sec:prb}. The purpose of PRB is to improve a beamformer's frame rate by reducing the number of transmit beams while maintaining a similar resolution level by increasing the number of receive beams.
 However, this approach has shown to induce artifacts and various PRB approaches have been introduced to try to limit those artifacts (\cite{multiline}).
-In order to avoid this problematic, perfect PRB is simulated in this thesis by upsampling the number of transmit beams and using SLA. Assuming perfect PRB, an image built from $b_{tr} = b_{re} = 195$ beams can therefore also be seen as built from $b_{tr} = 65$ transmit beams and $b_{re} = 3 \cdot b_{tr} = 195$ receive beams, or $b_{tr} = 39$ and $b_{re} = 5 \cdot b_{tr} = 195$ beams.
+In order to avoid this problem, perfect PRB is simulated in this thesis by upsampling the number of transmit beams and using SLA. Assuming perfect PRB, an image built from $b_{tr} = b_{re} = 195$ beams can therefore also be seen as built from $b_{tr} = 65$ transmit beams and $b_{re} = 3 \cdot b_{tr} = 195$ receive beams, or $b_{tr} = 39$ and $b_{re} = 5 \cdot b_{tr} = 195$ beams.
 
 The imaged medium contains scatterer points either in a noiseless medium or in a \textit{speckle} background, depending on the experiment. Speckle noise consists of the transmitted signals scattered by a large number of small, densely distributed, scatterer points and is used to simulate homogeneous tissues.
 The noiseless background scenario is a very controlled setup, with no randomness in the medium which could possibly alter the results. It is typically run first and its results are used to make fundamental observations and in-depth analysis. The speckle scenario is a more realistic one, typically used to verify the observations from the first scenario and obtain qualitative results closer to those of a real use case.
@@ -76,12 +78,6 @@ The parameters used for the aperture and medium simulation are summarized in Tab
 	\caption{DAS beamformer image of speckle background with $b_{tr}=65$ transmit beams}
 	\label{fig:speckle}
 \end{figure}
-
-\iffalse
-  Recorded frequencies bandwidth    &   1.8457 - 4.1528 MHz
-  along the full image plane, covering the full -90 to 90 degrees angular span.
-\fi
-
 
 \begin{table}[!ht]
 \centering
@@ -147,16 +143,16 @@ Four different beamforming algorithms are implemented and tested in this thesis:
     \subitem IAA-MBMB: (Multibeam/Multibeam) The MB approach is used both during the iteration stage and the final sources amplitude estimation.
 \end{itemize}
 \noindent
-As explained in section \ref{sec:MV}, the MV beamformer in its standard form is prone to artifacts and requires some robustification improvements. In this thesis, the MV beamformer is enhanced with the use of spatial smoothing, diagonal loading, temporal averaging and forward-backward averaging (Sections \ref{sec:diagonal_loading}, \ref{sec:spatial_smoothing}, \ref{sec:time_averaging} and \ref{sec:fb_averaging}).
+As explained in Section \ref{sec:MV}, the MV beamformer in its standard form is prone to artifacts and requires some robustification improvements. In this thesis, the MV beamformer is enhanced with the use of spatial smoothing, diagonal loading, temporal averaging and forward-backward averaging (Sections \ref{sec:diagonal_loading}, \ref{sec:spatial_smoothing}, \ref{sec:time_averaging} and \ref{sec:fb_averaging}).
 Based on Figure \ref{fig:spatial_smoothing}, the subarray length value is chosen as half the array length ($96/2 = 48$). Diagonal loading and time averaging are set to relatively low values, respectively $5\%$ and +/- 2 samples, in order to keep a high MV image resolution. The time averaging value of $T=2$ means that $2T+1=5$ samples are used per range index. With a sampling frequency of 90 MHz, this corresponds to $5 / (90 \cdot 10^6) = 55.5 \cdot 10^{-9}$ seconds and, with a speed of propagation $c = 1500~$m/s, to $1500 \cdot 55.5 \cdot 10^{-9} = 83.3 \cdot 10^{-6}~$m = 0.0833 mm per range index.
 For the signals transmitted at $3~$MHz, these 5 samples correspond to $5 \cdot 3 / 90 = 1/6^{th}$ of their wavelength.
 
 The DAS and IAA beamformers are by nature more robust than MV. In this thesis, none of the for-mentioned robustification methods are applied to those beamformers. The beamspace projection concept introduced in Section \ref{sec:beamspace_projection} is however used with the IAA-MB approaches. A $M x B$ transmformation matrix, where $M$ is the number of transducers in the array and $B$ the chosen number of dimensions in the projected beamspace, is built from Equation (\ref{eq:beamspace}). The value of $B$ is obtained from Equation (\ref{eq:beamspace_size}):
 \begin{equation}
-    B = 2 \cdot \lceil \frac{sin(\theta_{max}) \cdot M}{2} \rceil + 1 = 2 \cdot \lceil \frac{0.3 \cdot 96}{2} \rceil + 1 = 2 \cdot 15 + 1 = 31,
+    B = 2 \cdot \lceil \frac{\sin(\theta_{max}) \cdot M}{2} \rceil + 1 = 2 \cdot \lceil \frac{0.3 \cdot 96}{2} \rceil + 1 = 2 \cdot 15 + 1 = 31,
 \end{equation}
 \noindent
-where $\theta_{max}$ is the angle of the extremities of the imaged sector, set to $\pm 17.5^\circ$ in Section \ref{sec:sim_param}.
+where $\theta_{max}$ is the angle of the extremities of the imaged sector, set to $\pm 17.5^\circ$ as described in Section \ref{sec:sim_param}.
 
 As its names suggests, the IAA approach is an iterative method, which therefore requires an iteration stop condition. The iteration steps are developed in Section \ref{sec:IAA}. The iteration stop condition can either be a fixed number of iterations, a convergence threshold or a combination of both. A fixed number of 10 iterations has been chosen in this thesis, based on empirical data from \cite{Yardibi_nonparametric_IAA} and \cite{Jensen_IAA}. Using a convergence threshold, in this case probably a threshold on how much $\boldsymbol{\hat{P}}_{qq}$ varies between two iterations (ref. Section \ref{sec:IAA}), might yield better result, but to the cost of varying computational load. This variance in number of iterations could, in extreme cases, lead to varying frame rates, which can be problematic. Furthermore, the IAA approaches have not been explored enough yet to provide reliable convergence thresholds for each variant of the beamformer.
 Table \ref{table:beamformers_param} summarizes the parameters used for all beamformers.

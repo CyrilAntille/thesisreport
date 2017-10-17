@@ -7,32 +7,24 @@ Adaptive beamformers, unlike conventional ones, can adapt their aperture weights
 \label{sec:MV}
 The MV beamformer, also known as Capon beamformer (\cite{Capon}), uses what may be the most straightforward approach to adaptive beamforming. The approach is to minimize the beamformer's global output power (Equation \ref{eq:das_power}) while maintaining a unit gain in its steering direction. Note that this limitation is the reason this beamformer is classed as a \textit{distortionless} beamformer, which is why it is also often referred to as the Minimum Variance Distortionless Response (MVDR) beamformer. In mathematical terms, this comes to solving the following constrained optimization problem:
 \begin{equation}
-    \min_{\boldsymbol{w}} \boldsymbol{w}^H \boldsymbol{R(e)} \boldsymbol{w}, \quad subject ~ to \quad \boldsymbol{w}^H \boldsymbol{1} = 1,
+    \min_{\boldsymbol{w}} \boldsymbol{w}^H \boldsymbol{R_e} \boldsymbol{w}, \quad subject ~ to \quad \boldsymbol{w}^H \boldsymbol{1} = 1,
 \label{eq:mv_problem}
 \end{equation}
 \noindent
-where $\boldsymbol{w} = [w_1, ..., w_M]^T$ is the set of weights applied to the array transducers $[1,...,M]$, the vector $\boldsymbol{1}$ is a vector of length $M$ whose elements are all equal to 1, $\boldsymbol{e}$ is the beamformer focus vector on reception, as defined in Section \ref{sec:beamforming_reception}, and $\boldsymbol{R(e)} = E[\boldsymbol{Y_e} \boldsymbol{Y_e}^H]$ is the covariance matrix of $\boldsymbol{Y_e}(t)$ and $\boldsymbol{Y_e}(t) = [y_{1e}(t), ..., y_{Me}]^T$ is the set of the signals recorded by the array transducers and time-delayed by $\boldsymbol{e}$.
+where $\boldsymbol{w} = [w_1, ..., w_M]^T$ is the set of weights applied to the array transducers $[1,...,M]$, the vector $\boldsymbol{1}$ is a vector of length $M$ whose elements are all equal to 1, $\boldsymbol{e}$ is the beamformer focus vector on reception, as defined in Section \ref{sec:beamforming_reception}, and $\boldsymbol{R_e} = E[\boldsymbol{Y_e} \boldsymbol{Y_e}^H]$ is the covariance matrix of $\boldsymbol{Y_e}(t)$ and $\boldsymbol{Y_e}(t) = [y_{1e}(t), ..., y_{Me}]^T$ is the set of the signals recorded by the array transducers and time-delayed by $\boldsymbol{e}$.
 
-Equation (\ref{eq:mv_problem}) is technically not properly defined for most applications, since it assumes that $\boldsymbol{R(e)}$ is a function of $\boldsymbol{e}$ only. This assumption only holds if $\boldsymbol{Y_e}(t)$ is stationary in time, which, as seen in Section \ref{sec:covariance_estimation}, is only true for monochromatic waves in the array's far field. Furthermore, $\boldsymbol{R(e)}$ is unknown and needs to be estimated.
-Instead of creating a global matrix estimate as a function of $\boldsymbol{e}$, a local covariance matrix estimate $\boldsymbol{\tilde{R}}_{\theta,n}$ is built from Equation (\ref{eq:cov_matrix}) for each angle index $\theta$ and sample range $n$ of the beamformed image $Z(\theta,n)$.
-Equation (\ref{eq:mv_problem}) can be redefined then as:
+As mentioned in Section \ref{sec:covariance_estimation}, $\boldsymbol{R_e}$ is unknown and needs to be estimated.
+Local covariance matrix estimates $\boldsymbol{\tilde{R}}_{\theta,n}$ can be built from Equation (\ref{eq:cov_matrix}) for each angle index $\theta$ and sample range $n$ of the beamformed image $Z(\theta,n)$.
+If the array is steered using the phase-based approach presented in Section \ref{sec:beamforming_frequency}, Equation (\ref{eq:mv_problem}) can be written as:
 \begin{equation}
-    \min_{\boldsymbol{w}} \boldsymbol{w}^H \boldsymbol{\tilde{R}}_{\theta,n} \boldsymbol{w}, \quad subject ~ to \quad \boldsymbol{w}^H \boldsymbol{1} = 1,
-\label{eq:mv_predelayed}
-\end{equation}
-\noindent
-where the vector $\boldsymbol{1}$ is a vector of length $M$ whose elements are all equal to 1. That vector is replacing $\boldsymbol{e}$ since the time-delaying has already been applied to the recorded data.
-
-The phase-based steering approach presented in Section \ref{sec:beamforming_frequency} can then be added on top of it, with Equation \ref{eq:mv_predelayed} rewritten as:
-\begin{equation}
-    \min_{\boldsymbol{w}} \boldsymbol{w}^H \boldsymbol{\tilde{R}}_{\theta,n}(\boldsymbol{a}) \boldsymbol{w}, \quad subject ~ to \quad \boldsymbol{w}^H \boldsymbol{a} = 1,
+    \min_{\boldsymbol{w}} \boldsymbol{w}^H \boldsymbol{\tilde{R}}_{\theta,n} \boldsymbol{w}, \quad subject ~ to \quad \boldsymbol{w}^H \boldsymbol{a} = 1,
 \label{eq:mv_problem_fixed}
 \end{equation}
 \noindent
 where $\boldsymbol{a}$ is the array's phase-based steering vector.
 The solution to this minimization problem is:
 \begin{equation}
-    \boldsymbol{w} = \frac{\boldsymbol{\tilde{R}}_{\theta,n}^{-1} \boldsymbol{a}}{\boldsymbol{a}^H \boldsymbol{\tilde{R}}_{\theta,n}^{-1} \boldsymbol{a}}
+    \boldsymbol{w} = \frac{\boldsymbol{\tilde{R}}_{\theta,n}^{-1} \boldsymbol{a}}{\boldsymbol{a}^H \boldsymbol{\tilde{R}}_{\theta,n}^{-1} \boldsymbol{a}}.
 \label{eq:mv_weight}
 \end{equation}
 
@@ -40,7 +32,7 @@ The solution to this minimization problem is:
 The MV beamformer power output is therefore:
 \begin{equation}
     Z(\boldsymbol{a}) = \boldsymbol{w}^H \boldsymbol{\tilde{R}}_{\theta,n} \boldsymbol{w} =
-    \frac{1}{\boldsymbol{a}^H \boldsymbol{\tilde{R}}_{\theta,n}^{-1} \boldsymbol{a}}
+    \frac{1}{\boldsymbol{a}^H \boldsymbol{\tilde{R}}_{\theta,n}^{-1} \boldsymbol{a}}.
 \label{eq:mv_power}
 \end{equation}
 \noindent
@@ -83,9 +75,10 @@ In order to correct this effect, the coherent signals have to be decorrelated. \
 \noindent
 where each subarray covariance matrix estimate $\boldsymbol{R_k}(\theta, n)$ is defined by Equation (\ref{eq:cov_matrix}). If no temporal averaging (Section \ref{sec:time_averaging}) is used, Equation (\ref{eq:mv_spatial}) can be expressed as:
 \begin{equation}
-    \boldsymbol{\hat{R}}_{\theta, n} = \frac{1}{K} \sum_{k=0}^{K-1} \boldsymbol{Y_k}[n] \boldsymbol{Y_k}^H[n]
+    \boldsymbol{\hat{R}}_{\theta, n} = \frac{1}{K} \sum_{k=0}^{K-1} \boldsymbol{Y_k}[n] \boldsymbol{Y_k}^H[n],
 \end{equation}
 \noindent
+where, for each subarray $k$, $\boldsymbol{Y_k}$ is the set of recorded wavefield time-delayed and/or phase-shifted to focus on angle index $\theta$ and range index $n$.
 
 $L$ is often taken as a user parameter and its value chosen depending on the application. As $L$ converges towards $M$, the covariance matrix estimate converges to the original one and the beamformer converges to the original MV beamformer. On the other hand, as $L$ converges towards 1, each element gets considered as an array and the beamformer converges to the conventional DAS beamformer. The choice of $L$ is then a trade-off between image resolution and robustness to signal coherence.
 \par
@@ -110,7 +103,7 @@ An array of $M=100$ sensors is simulated and two coherent signals in random Gaus
 
 \subsection{Time averaging}
 \label{sec:time_averaging}
-The MV beamformer has shown to be able to achieve higher resolvability of scatterer points than the conventional DAS. However, the spatial covariance matrix estimate used in the MV beamformer affects the patterns of homogeneous tissue.Homogeneous tissues are typically represented in beamformed images by \textit{speckle}, which consists of the transmitted signals scattered by a large number of small, densely distributed, scatterer points. In this thesis, speckle is generated by simulating a large number of small scatterer points uniformly distributed in the medium.
+The MV beamformer has shown to be able to achieve higher resolvability of scatterer points than the conventional DAS. However, the spatial covariance matrix estimate used in the MV beamformer affects the patterns of homogeneous tissue. Homogeneous tissues are typically represented in beamformed images by \textit{speckle}, which consists of the transmitted signals scattered by a large number of small, densely distributed, scatterer points. In this thesis, speckle is generated by simulating a large number of small scatterer points uniformly distributed in the medium.
 \cite{speckle} showed that the MV beamformer has a tendency to attenuate the homogeneity of the speckle and may give the impression of scatterer points existing in the homogeneous tissue.
 Spatial averaging can enhance scatterer points resolution, but tend to result in lower average speckle magnitude. This effect can be beneficial for certain applications, as it tends to improve the SNR of isolated scatterer points, but can be undesirable in applications that use speckle in their image formation and/or analysis (e.g. skin tissue imaging).
 
@@ -127,21 +120,21 @@ where 2T + 1 temporal samples t are used per range unit n.
 \label{sec:fb_averaging}
 In Equation (\ref{eq:mv_temp}), each vector $\boldsymbol{Y}_k$ is the vector of time-delayed signals for each array $k$. Those vectors are typically defined as:
 \begin{equation}
-    \boldsymbol{Y}_k[n] = [y_k[n], y_{k+1}[n],...,y_{k+L-1}[n]], \quad k = 0,...,K-1
+    \boldsymbol{Y}_k[n] = [y_k[n], y_{k+1}[n],...,y_{k+L-1}[n]], \quad k = 0,...,K-1.
 \label{eq:forward_only}
 \end{equation}
 \noindent
 This approach is often referred to as \textit{forward-only} estimate.
 On the other hand, any other definition of $\boldsymbol{Y_k}[n]$ can result in a different covariance matrix estimation. Equation (\ref{eq:backward_only}) reflects the definition opted by the \textit{backward-only} approach:
 \begin{equation}
-    \boldsymbol{Y}_k[n] = [y_{K-k+L-1}[n], y_{K-k+L-2}[n],...,y_{K-k}[n]], \quad k = 0,...,K-1
+    \boldsymbol{Y}_k[n] = [y_{K-k+L-1}[n], y_{K-k+L-2}[n],...,y_{K-k}[n]], \quad k = 0,...,K-1.
 \label{eq:backward_only}
 \end{equation}
 \noindent
 
-The \textit{forward-backward} (FB) averaging is an approach that builds covariance matrix estimates by combining the forward-only and backward-only approaches (\cite{fb_averaging}):
+The \textit{forward-backward} (FB) averaging is an approach that builds covariance matrix estimates by combining the forward-only and backward-only approaches (\cite{van_trees}):
 \begin{equation}
-    \boldsymbol{\hat{R}}_{\theta,n}^{FB} = \frac{1}{2} (\boldsymbol{\hat{R}}_{\theta,n}^F + \boldsymbol{\hat{R}}_{\theta,n}^B)
+    \boldsymbol{\hat{R}}_{\theta,n}^{FB} = \frac{1}{2} (\boldsymbol{\hat{R}}_{\theta,n}^F + \boldsymbol{\hat{R}}_{\theta,n}^B).
 \label{eq:fb_averaging}
 \end{equation}
 
@@ -158,27 +151,28 @@ It is worth noting that this approach corrects for the lack of energy outside of
 
 Transmitted beams are typically both directional and narrow enough so that only a subsection of the image sector is insonated by a single beam. These properties result in most of the energy transmitted by a single beam to be restrained to a relatively small spatial frequency range. With the use of time-delay on received beams, most of this energy can be shifted towards the array's center line, which effectively transposes those spatial frequency ranges to low spatial frequencies. Since then most of the energy lies within low spatial frequencies, one could potentially apply a spatial low-pass filter without losing a lot of information.
 
-This is what beamspace projection conceptually does. The time-delayed signals $\boldsymbol{Y_e}[n]$ can be transposed to a reduced-dimensional beamspace with a simple multiplication by a transformation matrix $\boldsymbol{B}_{bs}$ mapping $\mathbb{C}^M$ to $\mathbb{C}^B$, where $M$ is the number of transducers in the array and $b$ the targeted beamspace dimensionality.
+This is what beamspace projection conceptually does. The time-delayed signals $\boldsymbol{Y_e}[n]$ can be transposed to a reduced-dimensional beamspace with a simple multiplication by a transformation matrix $\boldsymbol{B}_{bs}$ mapping $\mathbb{C}^M$ to $\mathbb{C}^B$, where $M$ is the number of transducers in the array and $b$ the targeted beamspace dimensionality:
 \begin{equation}
-    \boldsymbol{Y_e}^b =  \boldsymbol{B}_{bs} \boldsymbol{Y_e}
+    \boldsymbol{Y_e}^b =  \boldsymbol{B}_{bs} \boldsymbol{Y_e}.
 \end{equation}
 \noindent
-The transform can alternatively be applied to the covariance matrix estimate instead of the time-delayed signals. This is the approach selected in this thesis.
+The transform can alternatively be applied to the covariance matrix estimate instead of the time-delayed signals:
 \begin{equation}
-    \boldsymbol{\hat{R}}_{\theta,n}^B =  \boldsymbol{B}_{bs}^T \boldsymbol{\hat{R}}_{\theta,n} \boldsymbol{B}_{bs}
+    \boldsymbol{\hat{R}}_{\theta,n}^B =  \boldsymbol{B}_{bs}^T \boldsymbol{\hat{R}}_{\theta,n} \boldsymbol{B}_{bs}.
 \end{equation}
 \noindent
-The transformation matrix $\boldsymbol{B}_{bs}$ can be built in several ways. In this thesis, $\boldsymbol{B}_{bs}$ is conceptually built as a spatial lowpass filter, where only the spatial frequencies covering the imaged sector are kept. This approach uses the monochromatic signals assumption presented in Section \ref{sec:beamforming_frequency} which allows to map a physical angle of arrival $\theta$ to a spatial frequency $f_\theta = sin(\theta) \cdot M / 2$. The reduced-dimensional beamspace should therefore ideally include all spatial frequencies from $0$ to $f_{\theta_{max}}$, where $\theta = 0$ is the direction of the transducers array's normal vector and $\theta_{max}$ is the angle of the imaged sector extremities, and excludes all spatial frequencies $f > f_{\theta_{max}}$.
+This is the approach selected in this thesis.
+The transformation matrix $\boldsymbol{B}_{bs}$ can be built in several ways. In this thesis, $\boldsymbol{B}_{bs}$ is conceptually built as a spatial lowpass filter, where only the spatial frequencies covering the imaged sector are kept. This approach uses the monochromatic signals assumption presented in Section \ref{sec:beamforming_frequency} which allows to map a physical angle of arrival $\theta$ to a spatial frequency $f_\theta = \sin(\theta) \cdot M / 2$. The reduced-dimensional beamspace should therefore ideally include all spatial frequencies from $0$ to $f_{\theta_{max}}$, where $\theta = 0$ is the direction of the transducers array's normal vector and $\theta_{max}$ is the angle of the imaged sector extremities, and excludes all spatial frequencies $f > f_{\theta_{max}}$.
 
 The number of dimensions $B$ in the projected beamspace should then ideally reflect this condition. If the imaged sector spans the whole $\pm 90^{\circ}$, then the transformation matrix should be the identity matrix, mapping $\mathbb{C}^M$ to $\mathbb{C}^M$, meaning that $B = M$. On the other extreme case, if the image sector consists only of one direction, $\theta = 0$, the resulting beamspace should only have one dimension ($B = 1$). The beamspace dimensionality $B$ can be defined a linear function of $f_{\theta_{max}}$:
 \begin{equation}
-    B = 2 \cdot f_{\theta_{max}} + 1 = 2 \cdot \frac{sin(\theta_{max}) \cdot M}{2} + 1,
+    B = 2 \cdot f_{\theta_{max}} + 1 = 2 \cdot \frac{\sin(\theta_{max}) \cdot M}{2} + 1,
 \label{eq:beamspace_ideal}
 \end{equation}
 \noindent
 where the added 1 represents the central angle $\theta = 0$ and the factor 2 represents the two halves of the image sector. However, the number of dimensions $B$ has to be an integer and $f_{\theta_{max}}$ is not always one. Different rounding approaches can be implemented. In this thesis, the nearest integer higher than $f_{\theta_{max}}$, using the ceiling function, is used to define $B$. The reduced-dimension beamspace then spans a sector bigger or equal to the imaged sector. Equation (\ref{eq:beamspace_ideal}) is redefined accordingly:
 \begin{equation}
-    B = 2 \cdot \lceil f_{\theta_{max}} \rceil + 1 = 2 \cdot \lceil \frac{sin(\theta_{max}) \cdot M}{2} \rceil + 1,
+    B = 2 \cdot \lceil f_{\theta_{max}} \rceil + 1 = 2 \cdot \lceil \frac{\sin(\theta_{max}) \cdot M}{2} \rceil + 1,
 \label{eq:beamspace_size}
 \end{equation}
 \noindent
@@ -197,15 +191,15 @@ In addition to the monochromatic wave assumption, this implementation of $\bolds
 \label{sec:multibeam}
 One major drawback to adaptive beamforming methods, in comparison to conventional ones, is their computational complexity. Standard adaptive beamformers compute (and inverse) a separate covariance matrix estimate $\boldsymbol{\hat{R}}_{\theta, n}$ for each image sample, e.i. each radial distance of each received beam. $\boldsymbol{\hat{R}}_{\theta, n}$ is sometimes referred to as \textit{sample covariance matrix}. Since such a matrix is built from a single beam, it also requires the use of spatial averaging (Section \ref{sec:spatial_smoothing}) to decorrelate coherent signals.
 \par
-Another approach would be to compute a single covariance matrix estimate $\boldsymbol{\hat{R}}_n$ for each radial distance $n$, thus reducing the number of matrix inversions to the number of radial distances (\cite{Jensen_multibeam}). Such a matrix should be formed such that the beamformers weights can be extracted from it for any steering angle $\theta$. This condition is expressed in Equation (\ref{eq:mv_multibeam}), which is Equation (\ref{eq:mv_problem_fixed}) adapted to this situation.
+Another approach would be to compute a single covariance matrix estimate $\boldsymbol{\hat{R}}_n$ for each radial distance $n$, thus reducing the number of matrix inversions to the number of radial distances (\cite{Jensen_multibeam}). Such a matrix should be formed such that the beamformers weights can be extracted from it for any steering angle $\theta$. This condition is expressed in Equation (\ref{eq:mv_multibeam}), which is Equation (\ref{eq:mv_problem_fixed}) adapted to this situation:
 \begin{equation}
-    \min_{\boldsymbol{w}} \boldsymbol{w}^H \boldsymbol{\hat{R}}_n \boldsymbol{w}, \quad subject ~ to \quad \boldsymbol{w}^H \boldsymbol{a}_{\theta,n} = 1
+    \min_{\boldsymbol{w}} \boldsymbol{w}^H \boldsymbol{\hat{R}}_n \boldsymbol{w}, \quad subject ~ to \quad \boldsymbol{w}^H \boldsymbol{a}_{\theta,n} = 1.
 \label{eq:mv_multibeam}
 \end{equation}
 \noindent
 And its solution:
 \begin{equation}
-    \boldsymbol{w_a} = \frac{\boldsymbol{\hat{R}}_{n}^{-1} \boldsymbol{a_{\theta,n}}}{\boldsymbol{a_{\theta,n}}^H \boldsymbol{\hat{R}}_{n}^{-1} \boldsymbol{a_{\theta,n}}}
+    \boldsymbol{w_a} = \frac{\boldsymbol{\hat{R}}_{n}^{-1} \boldsymbol{a_{\theta,n}}}{\boldsymbol{a_{\theta,n}}^H \boldsymbol{\hat{R}}_{n}^{-1} \boldsymbol{a_{\theta,n}}}.
 \label{eq:mvmb_weight}
 \end{equation}
 \noindent
@@ -227,21 +221,21 @@ The covariance matrix estimate $\boldsymbol{\hat{R}_n}$ can then be formed from 
 where $S$ is the number of received beams steering angles $(\theta_1,..., \theta_S)$.
 This \textit{approach to multibeam covariance matrices} is often simply referred to as the \textit{multibeam} approach, and beamformers using this approach as \textit{multibeam beamformers}.
 
-Once the adaptive array weights are extracted from the covariance matrix estimate, they can actually be used in multiple ways. The most straightforward use is the \textit{single-beam (SB) output}. An image sample $Z_{\theta,n}$ is created by applying the weights $\boldsymbol{w}_{\boldsymbol{a}}$, coming from equation \ref{eq:mvmb_weight} with steering vector $\boldsymbol{a_{\theta,n}}$, to its corresponding array sample $\bar{Y}_{\boldsymbol{a}}$:
+Once the adaptive array weights are extracted from the covariance matrix estimate, they can actually be used in multiple ways. The most straightforward use is the \textit{single-beam (SB) output}. An image sample $Z_{\theta,n}$ is created by applying the weights $\boldsymbol{w}_{\boldsymbol{a}}$, coming from Equation (\ref{eq:mvmb_weight}) with steering vector $\boldsymbol{a_{\theta,n}}$, to its corresponding array sample $\bar{Y}_{\boldsymbol{a}}$:
 \begin{equation}
-    Z_{\theta,n} = | \boldsymbol{w_a}^T \boldsymbol{\hat{Y}}_{\theta, n} |
+    Z_{\theta,n} = | \boldsymbol{w_a}^T \boldsymbol{\hat{Y}}_{\theta, n} |^2.
 \end{equation}
 \noindent
-However, due to the adaptive nature of the beamformer, the weight vectors for different directions than that of the image sample can also hold information for that direction.
+However, due to the adaptive nature of the beamformer, the recorded data used for different directions than that of the image sample can also hold information for that direction.
 An alternative approach known as \textit{multibeam compound (MBC) output}, or \textit{multibeam (MB) output} forms an image sample based on the whole covariance matrix estimate rather than a single array sample:
 \begin{equation}
-    Z_{\theta,n} = (\boldsymbol{w_a}^T \boldsymbol{\hat{R}}_n \boldsymbol{w_a})^{1/2}
+    Z_{\theta,n} = \boldsymbol{w_a}^T \boldsymbol{\hat{R}}_n \boldsymbol{w_a}.
 \end{equation}
 
 
 \subsection{Iterative Adaptive Approach (IAA)}
 \label{sec:IAA}
-As stated in the introduction of this thesis, adaptive beamformers are still nowadays struggling to truly emerge as commercial products in medical ultrasound imaging. This has arguably been mainly due to their global reduced robustness compared to those of the conventional beamformers, their increased computational load, making real-time imaging difficult, and the introduction of additional user parameters to control their degree of adaptivity, which makes them much more difficult to use without a profound knowledge in how they work. 
+As stated in the introduction of this thesis, adaptive beamformers are still nowadays struggling to truly emerge as commercial products in medical ultrasound imaging. This has arguably been mainly due to their global reduced robustness compared to those of the conventional beamformers, their increased computational load, making real-time imaging difficult, and the introduction of additional user parameters to control their degree of adaptivity, which makes them much more difficult to use without a profound knowledge of how they work. 
 
 As the available computational capacities are constantly improving, the computational load issue is becoming less of a concern. It has actually recently been shown that adaptive beamforming (MV) can now be used for real-time imaging when implemented in a Graphics Processing Unit (GPU) framework (\cite{GPU}).
 The introduction of various robustification methods allows for more stable beamformers, often at the cost of reduced resolution capacity and increased computational load. However, those methods have to be precisely calibrated in order to yield optimum results. This typically restrains the use of such beamformers to people trained in the domain of beamforming.
@@ -253,7 +247,7 @@ In order to limit this parametrization burden, new approaches to adaptive beamfo
 \noindent
 where $s_q(t)$ is the source's signal and $\boldsymbol{a}_q$ is the phase-based steering vector pointing to the location of the source $q$. The covariance matrix of a single source is then:
 \begin{equation}
-    \boldsymbol{R}_q = \boldsymbol{E}[\boldsymbol{y}_q(t) \boldsymbol{y}_q(t)^T] = |s_q(t)|^2 \boldsymbol{a}_q \boldsymbol{a}_q^T
+    \boldsymbol{R}_q = \boldsymbol{E}[\boldsymbol{y}_q(t) \boldsymbol{y}_q(t)^T] = |s_q(t)|^2 \boldsymbol{a}_q \boldsymbol{a}_q^T.
 \end{equation}
 
 \noindent
@@ -266,24 +260,24 @@ The IAA beamformers follows the sparse signal representation and models $Q$ sour
 where $\boldsymbol{A}$ is the matrix of steering vectors $\boldsymbol{a}_q$ and $\boldsymbol{P}$ is a $Q x Q$ diagonal matrix with the sources' squared amplitudes $|s_q|^2$ along its diagonal.
 The IAA output image $\boldsymbol{Z}$ is formed from the estimated sources amplitudes $|s_q|$. Therefore each image sample $\boldsymbol{Z}_{\theta,n}$ is build from the corresponding $\boldsymbol{P}$ diagonal element $\boldsymbol{P}_{qq}$ for $q$ being the source located at $(\theta,n)$:
 \begin{equation}
-    Z_{\theta,n} = \sqrt{\boldsymbol{P}_{qq}}
+    Z_{\theta,n} = \sqrt{\boldsymbol{P}_{qq}}.
 \label{eq:IAA_output}
 \end{equation}
 \noindent
 Given an estimate $\boldsymbol{\hat{R}}$ of the covariance matrix $\boldsymbol{R}$, an initial estimate of $\boldsymbol{P}$ can be built by applying matched spatial filtering:
 \begin{equation}
-    \boldsymbol{\hat{P}} = \boldsymbol{A}_n^T \boldsymbol{\hat{R}} \boldsymbol{A}_n
+    \boldsymbol{\hat{P}} = \boldsymbol{A}_n^T \boldsymbol{\hat{R}} \boldsymbol{A}_n.
 \end{equation}
 
 \noindent
 This initial estimate of $\boldsymbol{P}$ actually corresponds to the output of the DAS beamformer (Equation (\ref{eq:das_power})) using the multibeam covariance matrix estimation approach (Section \ref{sec:multibeam}).
 The iterative stage improves this estimate of $\boldsymbol{P}$ by iteratively using the MV beamformer (Section \ref{sec:MV}):
 \begin{enumerate}
-    \item The covariance matrix model $\boldsymbol{\bar{R}}$ is built from Equation (\ref{eq:R_IAA} using $\boldsymbol{\hat{P}}$.
+    \item The covariance matrix model $\boldsymbol{\bar{R}}$ is built from Equation (\ref{eq:R_IAA}) using $\boldsymbol{\hat{P}}$.
     \item For each potential source $q$, a new set of weights $\boldsymbol{w}_q$ is built using the MV beamformer (Equation (\ref{eq:mv_weight})).
     \item Those weights $\boldsymbol{w}_q$ are then used to form new estimates of the sources' squared amplitudes:
     \begin{equation}
-        \boldsymbol{\hat{P}}_{qq} = \boldsymbol{w}_q^T \boldsymbol{\hat{R}} \boldsymbol{w}_q
+        \boldsymbol{\hat{P}}_{qq} = \boldsymbol{w}_q^T \boldsymbol{\hat{R}} \boldsymbol{w}_q.
     \label{eq:mb_output}
     \end{equation}
 \end{enumerate}
@@ -310,59 +304,3 @@ Although the choice of SB or MB output approach can be preserved for the last es
 \noindent
 In this thesis, we focus on the multibeam output approach during the iteration process, so we only implement the last two variants of the IAA algorithm.
 To avoid confusing, we refer to them as IAA-MBSB, respectively IAA-MBMB, and simply IAA-MB when referring to both approaches.
-
-
-\iffalse
-For the covariance matrix model $\boldsymbol{\bar{R}}$ to be invertible, it has to be full-rank. For $\boldsymbol{\bar{R}}$ as expressed in Equation \ref{eq:R_IAA}, this requires to model $Q$ uncorrelated sources along the full image plane, covering the full -90 to 90 degrees angular span.
-
-First of all, the targeted beamspace dimensionality, some of which being:
-\begin{itemize}
-    \item The optimal number of subdimensions $b$ can be estimated from the image sector size.
-    \item The transformation matrix $\boldsymbol{B}$ can be built from eigenvalues decomposition.
-\end{itemize}
-
-\textbf{TODO: Explain in detail how to build the transformation matrix. Find related publication or read 'Optimum array processing' book.}
-
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\linewidth]{./images/background/eigenvalue_IAA.png}
-    \label{fig:eigenvalue_IAA}
-    \caption{Eigenvalue decomposition of \textbf{A} (Equation \ref{eq:R_IAA})}
-\end{figure}
-
-
-\begin{figure}[ht]
-    \centering
-    \begin{minipage}[b]{0.3\linewidth}
-        \includegraphics[width=\linewidth]{./images/background/IAA-MBMB_low_nsd.png}
-        \label{fig:nsd_10}
-    \end{minipage}
-    \quad
-    \begin{minipage}[b]{0.3\linewidth}
-        \includegraphics[width=\linewidth]{./images/background/IAA-MBMB_right_nsd.png}
-        \label{fig:nsd_31}
-    \end{minipage}
-    \quad
-    \begin{minipage}[b]{0.3\linewidth}
-        \includegraphics[width=\linewidth]{./images/background/IAA-MBMB_high_nsd.png}
-        \label{fig:nsd_96}
-    \end{minipage}
-    \caption{IAA-MBMB beamformed image with number of subdimensions of 10 (left), 31 (middle) and 96 (right)}
-	\label{fig:IAA_nsd}
-\end{figure}
-
-
-k = 2pi/lambdac sin(theta)
-TODO: Explain optimal number of subdimensions based on image sector
-nsd = 2 * sin(theta) * N_elements
-
-k+ = (K-1)/2 = x / nel = sin(theta)
-
-theta = 17.5
--> find x and compare to nsd/2.
-
-plot beamspace projections (See INF5410) with corresponding image sector
-
-k = 4*pi * 0.3 = 
-\fi

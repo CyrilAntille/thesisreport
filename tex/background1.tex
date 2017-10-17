@@ -216,7 +216,7 @@ In most, if not all, signal processing applications, it is often useful to have 
 \noindent
 where $\boldsymbol{k}$ is the signal's wavenumber vector variable and $\omega$ its frequency variable. A transducer \textit{aperture smoothing function $W(\boldsymbol{k})$} is defined as the Fourier Transform of its aperture function $w(\boldsymbol{x})$.
 
-Going back to the example of Section \ref{sec:sensor_arrays}, Equation (\ref{eq:aperture_smoothing_linear}) develops how the transducer's aperture smoothing function is calculated from its aperture function defined in Equation (\ref{eq:aperture_linear}). Figure \ref{fig:linarray} illustrates how such an transducer and aperture smoothing function look.
+Going back to the example of Section \ref{sec:sensor_arrays}, Equation (\ref{eq:aperture_smoothing_linear}) develops how the transducer's aperture smoothing function is calculated from its aperture function defined in Equation (\ref{eq:aperture_linear}). Figure \ref{fig:linarray} illustrates how such an aperture smoothing function looks.
 \begin{align}
     W(\boldsymbol{k}) &= \int_{\mathbb{R}^3} w(\boldsymbol{x}) e^{j \boldsymbol{k} \cdot \boldsymbol{x}} d\boldsymbol{x} = \int_{-D/2}^{D/2} e^{j k_x x} dx \nonumber \\
     &= \frac{1}{j k_x} (e^{j k_x D/2} - e^{-j k_x D/2}) \nonumber \\
@@ -226,8 +226,8 @@ Going back to the example of Section \ref{sec:sensor_arrays}, Equation (\ref{eq:
 \end{align}
 
 \begin{figure}[ht]
-    \includegraphics[width=\linewidth]{./images/background/linarray.jpg}
-	\caption{Illustration of a linear array and its aperture smoothing function (Johnson and Dudgeon 1993, p.115)}
+    \includegraphics[width=\linewidth]{./images/background/aperture_smoothing_function.png}
+	\caption{Aperture smoothing function of a singular transducer shaped as a linear surface of length $D$}
 	\label{fig:linarray}
 \end{figure}
 \noindent
@@ -377,16 +377,16 @@ With the set of time-delayed received signals $\boldsymbol{Y}_e(t) = [y_{1e}(t),
 where $\boldsymbol{w}$ is the vector of amplitude weight values $w_m$ applied to transducer $m$ and $\boldsymbol{w}^H$ its conjugate transpose.
 
 By using dynamic focusing on reception, a different time-based focus vector $\boldsymbol{e_x}$ can be defined for each focus point $\boldsymbol{x}$ in the imaged sector. 
-The DAS beamformer output power can then be defined as a function of f $\boldsymbol{e_x}$:
+The DAS beamformer output power can then be defined as a function of $\boldsymbol{e_x}$:
 \begin{equation}
 \begin{split}
     Z(\boldsymbol{e_x}) \equiv E[|z(t)|^2](\boldsymbol{e_x}) = E\{(\boldsymbol{w}^H \boldsymbol{Y_{ex}})(\boldsymbol{w}^H \boldsymbol{Y_{ex}})^H\} \\
-    = \boldsymbol{w}^H E\{\boldsymbol{Y_{ex}} \boldsymbol{Y_{ex}^H} \} \boldsymbol{w} = \boldsymbol{w}^H \boldsymbol{R_e} \boldsymbol{w},
+    = \boldsymbol{w}^H E\{\boldsymbol{Y_{ex}} \boldsymbol{Y_{ex}^H} \} \boldsymbol{w} = \boldsymbol{w}^H \boldsymbol{R_{ex}} \boldsymbol{w},
 \end{split}
 \label{eq:das_power}
 \end{equation}
 \noindent
-where $E[]$ is the expected value function and $\boldsymbol{R_e}$ is the \textit{spatial correlation matrix}, or \textit{covariance matrix}, of $\boldsymbol{Y_{ex}}$. Section \ref{sec:covariance_estimation} explains how this matrix can be estimated.
+where $E[]$ is the expected value function and $\boldsymbol{R_{ex}}$ is the \textit{spatial correlation matrix}, or \textit{covariance matrix}, of $\boldsymbol{Y_{ex}}$. Section \ref{sec:covariance_estimation} explains how this matrix can be estimated.
 
 \subsection{Beamforming with narrowband signals}
 \label{sec:beamforming_frequency}
@@ -547,7 +547,7 @@ Assuming the transducer array to record only monochromatic waves in the far-fiel
 \noindent
 where $\boldsymbol{J}$ is a MxM exchange matrix. This property is notably used by the \textit{forward-backward} approach (Section \ref{sec:fb_averaging}).
 \noindent
-This matrix is used in Equation (\ref{eq:das_power}) for obtaining the DAS beamformer power output $Z(\boldsymbol{e})$. However, this matrix is unknown and an estimate of it, $\boldsymbol{\tilde{R}(e)}$, needs to be built.
+This matrix is used in Equation (\ref{eq:das_power}) for obtaining the DAS beamformer power output $Z(\boldsymbol{e})$. However, this matrix is unknown and an estimate of it, $\boldsymbol{\tilde{R}_e}$, needs to be built.
 
 In medical ultrasound imaging, the recorded signals are often broadband and in the array's near field. The assumption that $\boldsymbol{Y}$ is a stationary process is therefore often not true.
 However, instead of building a global covariance matrix estimate $\boldsymbol{\tilde{R}}$ for the whole beamformed image, a different covariance matrix estimate $\boldsymbol{\tilde{R}}_{\theta,n}$ can be built for each image sample $Z_{\theta, n}$, i.e each sample range index $n$ and angle index $\theta$.
