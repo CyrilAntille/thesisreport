@@ -1,7 +1,7 @@
 
 \section{Motion with naive MLA}
 \label{sec:naive_mla}
-We have so far only focused on perfect MLA, so it would be interesting to see if real MLA induces artifacts. There exist several MLA approaches (\cite{prb_approaches}), but we choose to experiment with a naive approach to MLA. For each transmit beam, three receive beams with different focus points are created by time-delaying of the recorded data. With this naive approach, the magnitude of the receive beams is not corrected to compensate for the difference in the energy sent towards their focus point.
+We have so far only focused on perfect MLA, so it would be interesting to see if real MLA induces artifacts. There exist several MLA approaches (\cite{prb_approaches}), but we choose to experiment with a naive approach to MLA. For each transmit beam, three receive beams with different focus points are created by time-delaying the recorded data. With this naive approach, the magnitude of the receive beams is not corrected to compensate for the difference in the energy sent towards their focus point.
 
 In this example, the receive beams are built such that they are uniformly distributed along the image azimuth. If $d_B$ is the distance between two transmit beam, the receive beams are built with focus points shifted $\{-d_B/3, 0, d_B/3\}~$mm from those of the transmit beams.
 The experiment of Figure \ref{fig:loss_vs_beams}, where the beamformers' maximum scalloping loss is estimated for different beam densities, is repeated in Figure \ref{fig:loss_vs_beams_mla} with varying transmit beam densities $b_{tr}$ and $b_{re} = 3 \cdot b_{tr}$.

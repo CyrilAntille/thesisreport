@@ -99,7 +99,7 @@ Since the choice of beam width is a trade-off between angular sampling and image
 The transmit beam density gives a trade-off between angular sampling and image frame rate. We first focus on SLA beamforming.
 For each transmit beam density $b_{tr}$, the maximum scalloping loss of each beamformer is recorded and displayed in Figure \ref{fig:loss_vs_beams}.
 
-The DAS beamformer requires at least 65 beams to guarantee no visible scalloping loss in the imaged scene. Since the same algorithm is used for all beamformers for beams transmission, this number can be taken as basis for the required number of transmit beams $b_{tr}$. We think that the other beamformers can then achieve non-visible scalloping loss with $b_{tr} = 65$ by using parallel receive beamforming (PRB, Section \ref{sec:prb}). This can be done by creating multiple receive beams per transmit beam.
+The DAS beamformer requires at least 65 beams to guarantee no visible scalloping loss in the imaged scene. Since the same algorithm is used for all beamformers for beams transmission, this number can be taken as basis for the required number of transmit beams $b_{tr}$. We think that the other beamformers can then achieve non-visible scalloping loss with $b_{tr} = 65$ by using multiline acquisition (MLA, Section \ref{sec:prb}). This can be done by creating multiple receive beams per transmit beam.
 In this thesis, the beamformed images are obtained by sequentially transmit beams and, for each transmit beam, create a single receive beam aimed at the same focus point.
 The perfect receive beam reconstruction is simulated by simply increasing the number of transmit beams so that $b_{tr} = b_{re}$.
 Scalloping loss can obviously also be attenuated by simply increasing $b_{tr}$, but this results in an increased image acquisition time and therefore reduced frame rate. The transmit beam density is therefore always kept as low as possible.
@@ -160,7 +160,7 @@ This can easily be explained by the adaptive nature of the beamformers steered r
 \end{figure}
 
 The required number of receive beams for each beamformer is summarized in Table \ref{table:num_beams}. The numbers for the MV beamformer are obtained from extending $b_{re}$ up to 981. An extension of Figures \ref{fig:loss_vs_beams} and \ref{fig:loss_vs_beams_speckle} for the MV beamformer is displayed in Figure \ref{fig:loss_vs_beams_ext}.
-It is worth mentioning that 981 beams for 35 degrees coverage is well above typical beam densities and, even assuming that perfect PRB with $b_{re} > 15 \cdot b_{tr}$ is feasible, such a high number of receive beams may cause significant computational delays.
+It is worth mentioning that 981 beams for 35 degrees coverage is well above typical beam densities and, even assuming that perfect MLA with $b_{re} > 15 \cdot b_{tr}$ is feasible, such a high number of receive beams may cause significant computational delays.
 In practice, the required receive beam density may have to be reduced. This can be achieved to the cost of reduced resolution by for example increasing the diagonal load and/or by creating wider beams.
 
 \begin{figure}[ht]
