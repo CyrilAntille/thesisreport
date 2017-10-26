@@ -28,7 +28,7 @@ For example, let us imagine an image illuminated by $b_{tr} = 11$ transmit beams
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\linewidth]{./images/results/2.1/velocities.png}
-    \caption{Illustration of beamformed image with various velocities. The velocity vectors are at a different scale than the image azimuth and range.}
+    \caption[Illustration of beamformed image with various velocities.]{Illustration of beamformed image with various velocities. The velocity vectors are at a different scale than the image azimuth and range.}
     \label{fig:velocities}
 \end{figure}
 
@@ -43,7 +43,7 @@ We have however chosen to have the scatterer point shifted in between all beams 
 First of all, with continuous motion, the results of this section can be extended to PRB approaches with virtually any coefficient value $PBR_c$, including single-line acquisition ($PBR_c = 1$). Secondly, this thesis focuses on worst-case scenarios and continuous motion seems to us to be a bigger divergence from the beamformers' model of static points than partial motion. We do not expect the partial motion implementation to result in additional artifacts.
 
 
-\subsection{Single scatterer point in noiseless medium}
+\subsection{Single scatterer point in a noiseless medium}
 \label{sec:single_noiseless}
 In this thesis, a scatterer point shape in a beamformed image is defined by the area within 3 dB of its peak gain. This section focuses on imaging a single scatterer point and analyzing the effects of motion within frames on its shape.
 
@@ -55,7 +55,7 @@ This contour plot representation is used as a visualization tool for the rest of
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\linewidth]{./images/results/2.1/DAS_steered2.png}
-	\caption{DAS beamformed image and steered response of a static scatter point in a noiseless medium}
+	\caption{DAS beamformed image and steered response of a static scatter point in a noiseless medium.}
 	\label{fig:DAS_steered}
 \end{figure}
 
@@ -63,20 +63,20 @@ This contour plot representation is used as a visualization tool for the rest of
     \centering
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.1/motion_0_-06.png}
-        \caption{$v_x = -0.6~$m/s}
+        \caption{$v_x = -0.6~$m/s.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.1/motion_0_0.png}
-        \caption{$v_x = 0~$m/s}
+        \caption{$v_x = 0~$m/s.}
         \label{fig:DAS_idle}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.1/motion_0_06.png}
-        \caption{$v_x = 0.6~$m/s}
+        \caption{$v_x = 0.6~$m/s.}
     \end{subfigure}
-	\caption{Contour plot of DAS beamformed images. Scatter point in lateral motion in a noiseless medium: $\boldsymbol{v}_s = (v_x, 0)~$m/s, $v_x \in \{-0.6, 0, 0.6\}$}
+	\caption{Contour plot of DAS beamformed images. Scatter point in lateral motion in a noiseless medium: $\boldsymbol{v}_s = (v_x, 0)~$m/s, $v_x \in \{-0.6, 0, 0.6\}$.}
 	\label{fig:illustration_all}
 \end{figure}
 
@@ -92,43 +92,20 @@ Note that a scatterer point having a linear motion type, even at constant range,
 For the next experiment, multiple frames are simulated with a single scatterer point located at $40~$mm range and moving at different lateral velocities $v_x$ from -0.6 to 0.6 m/s.
 For any given frame, the width of the scatterer point is estimated by the mainlobe width of the array's steered response at $40~$mm radius. For each frame, the resulting scatterer point width is displayed in Figure \ref{fig:width_vs_velocity} both as an absolute value and as a relative increase, in $\%$, compared to that of the scatterer point when static.
 
-\iffalse
-\begin{figure}[ht]
-    \centering
-    \begin{subfigure}[t]{0.3\linewidth}
-        \includegraphics[width=\linewidth]{./images/results/2.1/DAS_frame1.png}
-        \caption{$v_x = -0.6~$m/s}
-    \end{subfigure}
-    \quad
-    \begin{subfigure}[t]{0.3\linewidth}
-        \includegraphics[width=\linewidth]{./images/results/2.1/DAS_frame2.png}
-        \caption{$v_x = 0~$m/s}
-        \label{fig:DAS_idle}
-    \end{subfigure}
-    \quad
-    \begin{subfigure}[t]{0.3\linewidth}
-        \includegraphics[width=\linewidth]{./images/results/2.1/DAS_frame3.png}
-        \caption{$v_x = 0.6~$m/s}
-    \end{subfigure}
-	\caption{Contour plot of DAS beamformed images. Scatter point in lateral motion in a noiseless medium: $\boldsymbol{v}_s = (v_x, 0)~$m/s, $v_x \in \{-0.6, 0, 0.6\}$}
-	\label{fig:illustration_DAS}
-\end{figure}
-\fi
-
 \begin{figure}[ht]
     \centering
     \begin{subfigure}[t]{\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.1/mainlobe_width_65.png}
-        \caption{Steered response mainlobe width in mm}
+        \caption{Steered response mainlobe width in mm.}
         \label{fig:width_vs_velocity_a}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.1/mainlobe_width_65_rel.png}
-        \caption{Steered response mainlobe width relative to that of the static scatterer point scenario}
+        \caption{Steered response mainlobe width relative to that of the static scatterer point scenario.}
         \label{fig:width_vs_velocity_b}
     \end{subfigure}
-	\caption{Scatter point in lateral motion in a noiseless medium: $\boldsymbol{v}_s = (v_x, 0)~$m/s, $-0.6 \leq v_x \leq 0.6$}
+	\caption{Scatter point in lateral motion in a noiseless medium: $\boldsymbol{v}_s = (v_x, 0)~$m/s, $-0.6 \leq v_x \leq 0.6$.}
 	\label{fig:width_vs_velocity}
 \end{figure}
 
@@ -138,16 +115,16 @@ As predicted in Table \ref{table:panoramic_imperfect}, the point's apparent widt
     \centering
     \begin{subfigure}[t]{\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.1/speeds_ext_pos.png}
-        \caption{$0 \leq v_x \leq 3~$m/s}
+        \caption{$0 \leq v_x \leq 3~$m/s.}
 	    \label{fig:width_vs_velocity_ext_pos}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.1/speeds_ext_neg.png}
-        \caption{$-3 \leq v_x \leq 0~$m/s}
+        \caption{$-3 \leq v_x \leq 0~$m/s.}
 	    \label{fig:width_vs_velocity_ext_neg}
     \end{subfigure}
-	\caption{Scatter point in lateral motion in a noiseless medium: $\boldsymbol{v}_s = (v_x, 0)~$m/s, $-3 \leq v_x \leq 3$}
+	\caption{Scatter point in lateral motion in a noiseless medium: $\boldsymbol{v}_s = (v_x, 0)~$m/s, $-3 \leq v_x \leq 3$.}
 	\label{fig:width_vs_velocity_ext}
 \end{figure}
 
@@ -173,26 +150,6 @@ The IAA-MBMB, on the other hand, displays a different behaviour with $v_x \leq -
 The IAA-MBMB is also altogether more sensitive to lateral motion than IAA-MBSB and can yield results with lower resolution than DAS for relatively high velocities, both positive and negative.
 Both the IAA-MBSB and IAA-MBMB beamformers suffer from this discrepancy of the imaged medium from the assumed model. However, the IAA-MBMB approach is more sensitive to this divergence since it uses the multibeam $\boldsymbol{\hat{R}}$ for the final estimate of the scatterer point amplitudes (Equation (\ref{eq:mb_output})), whereas the IAA-MBSB approach only uses the corresponding time- and phase-shifted array data for that final step (Equation (\ref{eq:sb_output})).
 
-
-\iffalse
-
-It is worth noticing that the IAA-MBSB approach, although more sensitive than DAS in terms of relative mainlobe increase (Figure \ref{fig:width_vs_velocity_b}), still maintains a resolution similar or higher than DAS for all tested velocities (Figures \ref{fig:width_vs_velocity_a} and \ref{fig:width_vs_velocity_ext}).
-The IAA-MBMB is the most sensitive to lateral motion. Although it can achieve roughly similar resolutions than the IAA-MBSB beamformer with static scatterer points, its resolution capabilities deteriorate faster than the other beamformers when experiencing lateral motion and can even become worst than those of DAS for $v_x > 1.2~$m/s.
-
-Another interesting result, visible in Figure \ref{fig:width_vs_velocity_ext_neg}, is that the IAA-MBMB resolution capabilities are also deteriorating with high velocities in the opposite direction than that of the image acquisition.
-The other beamformers all produce images with the size of the scatterer point appearing smaller as $v_x$ decreases towards $-\infty$, accordingly to our expectations from Section \ref{sec:beams_motion}. The IAA-MBMB approach, on the other hand, yields scatterer points with increasing shape size as $v_x$ decreases beyond -0.6 m/s and may result again, for $v_x < -2.1~$m/s, in resolution capabilities lower than DAS.
-
-
-A visual comparison of the imaged scenes with $v_x = -3, 0$ and $1.8~$m/s is provided in Figure \ref{fig:iaa_mbmb_173}.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\linewidth]{./images/results/2.1/IAA_MBMB_illustration.png}
-    \caption{Contour plot of IAA-MBMB beamformed image, with $b_{tr}=173$, of scatterer point with $\boldsymbol{v}_s = (v_x, 0)~m/s$, where $v_x = -0.5,~0$ and $0.5~m/s$}
-    \label{fig:iaa_mbmb_173}
-\end{figure}
-\fi
-
 For the next experiment, scatterer points moving in different directions are imaged. The beamformed images are simulated in the same manner as for the previous experiment, with a single scatterer point moving in a noiseless medium. The only difference is that the scatterer point is not only assumed to move laterally ($v_x \neq 0$), but also vertically ($v_y \neq 0$). The goal of this experiment is to find out if the vertical component of a scatterer point's velocity induces additional artifacts in its apparent shape. Different scatterer point velocities $\boldsymbol{v}_s$  such that $|\boldsymbol{v}_s| = 0.6~$m/s are experimented with and the resulting beamformed images are displayed in Figure \ref{fig:linear_motion}. The images are displayed as contour plots, with color thresholds at max-100, max-10 and max-3$~$dB, for an enhanced visibility of the scatterer point's shape.
 
 The results of Figure \ref{fig:linear_motion} converge with those of Figure \ref{fig:width_vs_velocity} in the sense that motion within frames only seems to result in dilation or erosion of the scatterer point. However, it is worth noticing that the direction of dilation $\boldsymbol{d}_s = (d_x, d_y)~m$ does not always correspond to the direction of motion $\boldsymbol{v}_s = (v_x, v_y)~m/s$. 
@@ -204,53 +161,52 @@ Since the images are formed by sequentially transmitting beams from left to righ
     \centering
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.1/motion_0_-06.png}
-        \caption{$\boldsymbol{v}_s = (-0.6, 0)~m/s$}
+        \caption{$\boldsymbol{v}_s = (-0.6, 0)~m/s$.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.1/motion_0_06.png}
-        \caption{$\boldsymbol{v}_s = (0.6, 0)~m/s$}
+        \caption{$\boldsymbol{v}_s = (0.6, 0)~m/s$.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.1/motion_90_-06.png}
-        \caption{$\boldsymbol{v}_s = (0, -0.6)~m/s$}
+        \caption{$\boldsymbol{v}_s = (0, -0.6)~m/s$.}
         \label{eq:vertical_towards}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.1/motion_90_06.png}
-        \caption{$\boldsymbol{v}_s = (0, 0.6)~m/s$}
+        \caption{$\boldsymbol{v}_s = (0, 0.6)~m/s$.}
         \label{eq:vertical_away}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.1/motion_-45_-06.png}
-        \caption{$\boldsymbol{v}_s = (-0.42, 0.42)~m/s$}
+        \caption{$\boldsymbol{v}_s = (-0.42, 0.42)~m/s$.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.1/motion_-45_06.png}
-        \caption{$\boldsymbol{v}_s = (0.42, -0.42)~m/s$}
+        \caption{$\boldsymbol{v}_s = (0.42, -0.42)~m/s$.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.1/motion_45_-06.png}
-        \caption{$\boldsymbol{v}_s = (-0.42, -0.42)~m/s$}
+        \caption{$\boldsymbol{v}_s = (-0.42, -0.42)~m/s$.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.1/motion_45_06.png}
-        \caption{$\boldsymbol{v}_s = (0.42, 0.42)~m/s$}
+        \caption{$\boldsymbol{v}_s = (0.42, 0.42)~m/s$.}
     \end{subfigure}
-	\caption{A single scatterer point in various linear motions $\boldsymbol{v}_s$ with $|\boldsymbol{v}_s|=0.6~m/s$ in a noiseless medium. Contour plot levels: max-100, max-10 and max-3 dB}
+	\caption[A single scatterer point in various linear motions $\boldsymbol{v}_s$ with $|\boldsymbol{v}_s|=0.6~m/s$ in a noiseless medium.]{A single scatterer point in various linear motions $\boldsymbol{v}_s$ with $|\boldsymbol{v}_s|=0.6~m/s$ in a noiseless medium. Contour plot levels: max-100, max-10 and max-3 dB.}
 	\label{fig:linear_motion}
 \end{figure}
 
 
-
 \clearpage
-\subsection{Closely separated points in noiseless medium}
+\subsection{Closely separated points in a noiseless medium}
 \label{sec:twopoints_noiseless}
 Section \ref{sec:spatial_smoothing} explored the issues with the presence of coherent signals in a recorded wavefield. Adaptive beamformers such as MV assume signals reflected by different scatterer points to be totally uncorrelated. Since active beamforming systems are by definition transmitting signals and recording their echoes from elements in the imaged medium, those echoes are by nature correlated.
 This deviation from the model can induce apparent signal cancellation and result in lower SNR of the signals backscattered by the scatterer points in the imaged medium. The MV beamformer used in this thesis actively uses the spatial smoothing robustification method (Section \ref{sec:spatial_smoothing}) to decorrelate as much as possible the scatterer point echoes and reduce the signal cancellation effect.
@@ -287,7 +243,7 @@ Imagining now that both scatterer points are moving at the same lateral velocity
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\linewidth]{./images/results/2.2/motion_0_0.png}
-    \caption{Contour plot of beamformed image with two closely-separated scatterer points in noiseless medium. Color levels are: max-100, max-10 and max-3 dB}
+    \caption[Contour plot of beamformed image with two closely-separated scatterer points in a noiseless medium.]{Contour plot of beamformed image with two closely-separated scatterer points in a noiseless medium. Color levels are: max-100, max-10 and max-3 dB.}
     \label{fig:two_points_static}
 \end{figure}
 
@@ -316,44 +272,44 @@ Figure \ref{fig:linear_motion_double} shows the same confusion of dilation direc
     \centering
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.2/motion_0_-06.png}
-        \caption{$\boldsymbol{v}_s = (-0.6, 0)~$m/s}
+        \caption{$\boldsymbol{v}_s = (-0.6, 0)~$m/s.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.2/motion_0_06.png}
-        \caption{$\boldsymbol{v}_s = (0.6, 0)~$m/s}
+        \caption{$\boldsymbol{v}_s = (0.6, 0)~$m/s.}
         \label{fig:double_lateral}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.2/motion_90_-06.png}
-        \caption{$\boldsymbol{v}_s = (0, -0.6)~$m/s}
+        \caption{$\boldsymbol{v}_s = (0, -0.6)~$m/s.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.2/motion_90_06.png}
-        \caption{$\boldsymbol{v}_s = (0, 0.6)~$m/s}
+        \caption{$\boldsymbol{v}_s = (0, 0.6)~$m/s.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.2/motion_-45_-06.png}
-        \caption{$\boldsymbol{v}_s = (-0.42, 0.42)~$m/s}
+        \caption{$\boldsymbol{v}_s = (-0.42, 0.42)~$m/s.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.2/motion_-45_06.png}
-        \caption{$\boldsymbol{v}_s = (0.42, -0.42)~$m/s}
+        \caption{$\boldsymbol{v}_s = (0.42, -0.42)~$m/s.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.2/motion_45_-06.png}
-        \caption{$\boldsymbol{v}_s = (-0.42, -0.42)~$m/s}
+        \caption{$\boldsymbol{v}_s = (-0.42, -0.42)~$m/s.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/2.2/motion_45_06.png}
-        \caption{$\boldsymbol{v}_s = (0.42, 0.42)~$m/s}
+        \caption{$\boldsymbol{v}_s = (0.42, 0.42)~$m/s.}
     \end{subfigure}
-	\caption{Two scatterer points, initially $0.75~$mm apart, in various linear motions $\boldsymbol{v}_s$ with $|\boldsymbol{v}_s|=0.6~$m/s in a noiseless medium. Contour plot levels: max-100, max-10 and max-3 dB}
+	\caption[Two scatterer points, initially $0.75~$mm apart, in various linear motions $\boldsymbol{v}_s$ with $|\boldsymbol{v}_s|=0.6~$m/s in a noiseless medium.]{Two scatterer points, initially $0.75~$mm apart, in various linear motions $\boldsymbol{v}_s$ with $|\boldsymbol{v}_s|=0.6~$m/s in a noiseless medium. Contour plot levels: max-100, max-10 and max-3 dB.}
 	\label{fig:linear_motion_double}
 \end{figure}

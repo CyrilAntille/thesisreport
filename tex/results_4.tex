@@ -9,14 +9,14 @@ The experiment of Figure \ref{fig:loss_vs_beams}, where the beamformers' maximum
     \centering
     \begin{subfigure}[t]{\linewidth}
         \includegraphics[width=\linewidth]{./images/results/4/loss_vs_beams_mla.png}
-        \caption{Whole plot}
+        \caption{Maximum scalloping loss of DAS, MV, IAA-MBSB and IAA-MBMB beamformers for $b_{re} \in [15, 195]$.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{\linewidth}
         \includegraphics[width=\linewidth]{./images/results/4/loss_vs_beams_mla_zoom.png}
-        \caption{Plot focus on $[0, 5]~$dB range}
+        \caption{Maximum scalloping loss of DAS, IAA-MBSB and IAA-MBMB beamformers for $b_{re} \in [75, 195]$.}
     \end{subfigure}
-	\caption{Maximum scalloping loss of single scatterer point at $40~mm$ radius in noiseless medium. All beamformers use MLA with $b_{re} = 3 \cdot b_{tr}$}
+	\caption[Maximum scalloping loss of single scatterer point at $40~mm$ radius in noiseless medium with naive MLA.]{Maximum scalloping loss of single scatterer point at $40~mm$ radius in noiseless medium with naive MLA. All beamformers use MLA with $b_{re} = 3 \cdot b_{tr}$. The maximum scalloping loss values of all beamformers for $b_{re} \in [15, 195]$ are dispalyed in (a). For enhanced visibility, a focus on the DAS, IAA-MBSB and IAA-MBMB values for $b_{re} \in [75, 195]$ is provided in (b).}
 	\label{fig:loss_vs_beams_mla}
 \end{figure}
 
@@ -68,7 +68,7 @@ The MLA approach is less sensitive to this gain drop effect than the SLA approac
         \includegraphics[width=\linewidth]{./images/results/4/gain_IAA-MBMB.png}
         \caption{IAA-MBMB}
     \end{subfigure}
-	\caption{Maximum and minimum gains of single scatterer point at $40~mm$ radius in noiseless medium}
+	\caption{Maximum and minimum gains of single scatterer point at $40~$mm radius in a noiseless medium.}
 	\label{fig:gain_comparison}
 \end{figure}
 
@@ -81,7 +81,7 @@ Since both points are on a transmit beam trajectory, the scalloping loss experie
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\linewidth]{./images/results/4/two_points_static_mla.png}
-	\caption{Contour plot of beamformed image, using naive MLA, with two closely-separated scatterer points in noiseless medium. Color levels are:  max-100, max-10 and max-3 dB}
+	\caption[Contour plot of beamformed image, using naive MLA, with two closely-separated scatterer points in a noiseless medium]{Contour plot of beamformed image, using naive MLA, with two closely-separated scatterer points in a noiseless medium. Color levels are:  max-100, max-10 and max-3 dB.}
 	\label{fig:two_points_static_mla}
 \end{figure}
 
@@ -102,51 +102,51 @@ The IAA-MBMB beamformed images look identical than those of Figure \ref{fig:line
     \centering
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/4/motion_0_-06.png}
-        \caption{$\boldsymbol{v}_s = (-0.6, 0)~m/s$}
+        \caption{$\boldsymbol{v}_s = (-0.6, 0)~m/s$.}
         \label{fig:mla_a}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/4/motion_0_06.png}
-        \caption{$\boldsymbol{v}_s = (0.6, 0)~m/s$}
+        \caption{$\boldsymbol{v}_s = (0.6, 0)~m/s$.}
         \label{fig:mla_b}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/4/motion_90_-06.png}
-        \caption{$\boldsymbol{v}_s = (0, -0.6)~m/s$}
+        \caption{$\boldsymbol{v}_s = (0, -0.6)~m/s$.}
         \label{fig:mla_c}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/4/motion_90_06.png}
-        \caption{$\boldsymbol{v}_s = (0, 0.6)~m/s$}
+        \caption{$\boldsymbol{v}_s = (0, 0.6)~m/s$.}
         \label{fig:mla_d}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/4/motion_-45_-06.png}
-        \caption{$\boldsymbol{v}_s = (-0.42, 0.42)~m/s$}
+        \caption{$\boldsymbol{v}_s = (-0.42, 0.42)~m/s$.}
         \label{fig:mla_e}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/4/motion_-45_06.png}
-        \caption{$\boldsymbol{v}_s = (0.42, -0.42)~m/s$}
+        \caption{$\boldsymbol{v}_s = (0.42, -0.42)~m/s$.}
         \label{fig:mla_f}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/4/motion_45_-06.png}
-        \caption{$\boldsymbol{v}_s = (-0.42, -0.42)~m/s$}
+        \caption{$\boldsymbol{v}_s = (-0.42, -0.42)~m/s$.}
         \label{fig:mla_g}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/4/motion_45_06.png}
-        \caption{$\boldsymbol{v}_s = (0.42, 0.42)~m/s$}
+        \caption{$\boldsymbol{v}_s = (0.42, 0.42)~m/s$.}
         \label{fig:mla_h}
     \end{subfigure}
-	\caption{Two scatterer points, initially $0.75~$mm apart, in various linear motions $\boldsymbol{v}_s$ with $|\boldsymbol{v}_s|=0.6~m/s$ in a noiseless medium. Contour plot levels: max-100, max-10 and max-3 dB}
+	\caption[Two scatterer points, initially $0.75~$mm apart, in various linear motions $\boldsymbol{v}_s$ with $|\boldsymbol{v}_s|=0.6~m/s$ in a noiseless medium.]{Two scatterer points, initially $0.75~$mm apart, in various linear motions $\boldsymbol{v}_s$ with $|\boldsymbol{v}_s|=0.6~m/s$ in a noiseless medium. Contour plot levels: max-100, max-10 and max-3 dB.}
 	\label{fig:two_points_linear_motion_mla}
 \end{figure}

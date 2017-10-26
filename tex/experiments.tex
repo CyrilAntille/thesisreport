@@ -30,25 +30,24 @@ The for-mentioned study showed that the MV algorithm requires a much higher beam
     \centering
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/others/scallop_loss1.png}
-        \caption{$s_1$ azimuth = 0 mm}
+        \caption{Position of $s_1 = (0, 40)~$mm.}
         \label{fig:bf_im1}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/others/scallop_loss2.png}
-        \caption{$s_1$ azimuth = 1.2 mm}
+        \caption{Position of $s_1 = (1.2, 39.98)~$mm.}
         \label{fig:bf_im2}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/others/scallop_loss3.png}
-        \caption{$s_1$ azimuth = 2.4 mm}
+        \caption{Position of $s_1 = (2.4, 39.93)~$mm.}
         \label{fig:bf_im3}
     \end{subfigure}
-    \caption{DAS beamformed images of a scatterer point $s_1$ moving in speckle. The scatterer point is shifted half the distance between beams per frame. The white lines are added on top of the beamformed image and represent the transmit beams trajectories}
+    \caption[DAS beamformed images of a scatterer point $s_1$ moving in speckle.]{DAS beamformed images of a scatterer point $s_1$ moving in speckle. The scatterer point is shifted, along the beamformer's focus radius, half the distance between beams per frame. The position $(x, y)$ of $s_1$ is $(0, 40)~$mm in (a), $(1.2, 39.98)~$mm in (b) and $(2.4, 39.93)~$mm in (c), where $x$ is the offset of $s_1$ relative to the center of the array along the azimuth dimension and $y$ is the offset along the range dimension. The white lines are added on top of the beamformed image and represent the transmit beams trajectories.}
 	\label{fig:bf_im}
 \end{figure}
-
 
 Scalloping loss, for any scatterer point in the medium, can be caused by a lack of energy transmitted towards the point's position or by signal suppression from the array towards that position.
 Two of the most straightforward approaches to reducing scalloping loss are by either increasing the density of transmit beams or their width. However both methods have obvious drawbacks. The choice of beam width is a trade-off between sensitivity to scalloping loss and image resolution, whereas the choice of their density is a trade-off between sensitivity to scalloping loss and image acquisition time.
@@ -111,7 +110,7 @@ With these initial intuitions in mind, the photography analogy can be extended t
   $\boldsymbol{m_o}$ perpendicular to $\boldsymbol{m_p}$    &   The object can appear distorted \\
   \hline
  \end{tabular}
-\caption{Photography analogy. An object is moving in between frames of a panoramic picture. Expected artifacts with perfect image segmentation}
+\caption{Photography analogy of an object moving in between frames of a panoramic picture. Expected artifacts with perfect image segmentation.}
 \label{table:panoramic_perfect}
 \end{table}
 
@@ -135,7 +134,7 @@ With these initial intuitions in mind, the photography analogy can be extended t
     &   blurry or distorted \\
   \hline
  \end{tabular}
-\caption{Photography analogy. An object is moving in between frames of a panoramic picture. Expected artifacts with imperfect image segmentation}
+\caption{Photography analogy of an object moving in between frames of a panoramic picture. Expected artifacts with imperfect image segmentation.}
 \label{table:panoramic_imperfect}
 \end{table}
 
@@ -143,32 +142,3 @@ The first part of this section aims to give a first exposure to the effects and 
 
 Blood flow velocities in arteries are typically on average around 0.12 m/s, with peaks around 0.6 m/s (\cite{Blood_flow}). With this in mind, this section's analysis focuses on the 0 to 0.6 m/s velocity range.
 The second part of this section analyses the effect of motion with multiple scatterer points in an attempt to discover any potential additional effect in scenarios with coherent signals. The experiments run are very similar to those of the first part of this section, although with the presence of signal coherence induced by two closely-separated scatterer points in the imaged medium.
-
-
-\iffalse
-For simplicity, it is first considered that all transmit beams are 'perfectly' defined, with all energy radiated in a defined sector, and none of them intersect with each other \textbf{(TODO: Add illustration)}:
-
-
-In the photography analogy, it would be similar to taking a panoramic picture, where pictures are extended by other ones in order to form a picture with extended spatial range.
-Besides the blur previously explained, additional artifacts and blur can be caused by discrepancies between pictures. 
-due to the sequential nature of image acquisition, i.e. the formation and recording of directional beams, the concept of motion within frames actually exists and is often ignored.
-
-We expect the combined analysis of all scenarios experimented with in this thesis to provide a reliable and thorough understanding of the fundamental issues and artifacts induced from motion in ultrasound imaging, along with realistic limitations, and enhancement possibilities, of each beamformer presented in this thesis.
-\fi
-
-\iffalse
-\section{Improvement and robustification approaches}
-\label{sec:improvement}
-Sections \ref{sec:frames_motion} and \ref{sec:beams_motion} analyze the effects of motion in an imaged medium with various numbers of transmit  beams $b_{tr}$. It is known from \cite{Asen_shift_invariance} that the scalloping loss magnitude is heavily correlated to the transmit beam density. However, Equation (\ref{eq:frame_rate}) shows that image frame rate is also directly correlated with the transmit beam density. Some applications, especially real-time imaging, require a minimum frame rate, which in consequence sets a maximum beam density threshold. This section explores alternative approaches to rendering the beamformers robust to motion in the imaged medium.
-
-Scalloping loss is an effect inherent of the creation of beams. For the same beam density, narrow beams can induce stronger scalloping loss than wide beams. Therefore, instead of increasing the beams density, another approach to reducing scalloping loss is increasing the beams mainlobe width. A simple way to do that is by reducing the length of the transducers array. This choice of array length can be done both for transmission and reception and do not necessarily have to be of similar length.
-As stated in Section \ref{}, an image resolution is dependent on the beamformer beams mainlobe width, both on transmission and reception \textbf{ref}. The choice of array length therefore gives a trade-off between image resolution and scalloping loss magnitude. This choice does not influence the image acquisition time, which means it does not suffer from frame rate limitations.
-
-Another alternative is to increase the density of receive beams by signals time-delaying. In previous sections, the number of receive beams $b_{re}$ always matched the number of transmit beams $b_{tr}$, since, for each transmit beam, a receive beam was created with the same focus point. However, due to imperfect beamforming, energy is not only radiated towards the transmit beam direction, but also in neighboring directions, and possibly even in remote directions.
-For that reason, it can be advantageous to create multiple receive beams for each transmit beam and use this spatial leakage of the transmitted energy.
-This approach obviously does not work if no energy is sent towards the receive beam focus direction, as is not able to recreate lost information, but it can use the information of neighboring transmit beams. A great advantage of this approach is that, much like the choice of array length, it does not impact the image acquisition time, only its processing time. Considering its limitations and advantages, one could imaging a hybrid alternative. The transmit beams density could be set such that their mainlobe are guaranteed to intersect with their neighboring transmit beam mainlobe. This condition guarantees that energy is sent across the imaging sector. The receive beams density can then be increased to guarantee no visible scalloping loss. The implementation of such an approach falls outside of the scope of this thesis. One could for example start by assessing how big the transmit beams mainlobe intersection has to be for the time-delaying method to be able to reduce the effects of scalloping loss below the visibility threshold. Then similar experiments to those done in this thesis could be used to detect any potential artifact introduced by this approach.
-
-Finally, the beamformers using the multibeam approach (Section \ref{sec:multibeam}) actively use phase-based shifting for receive beams focusing. The upsampling of receive beams presented here with time shifts can also be done to some extend with phase-based shifting (Section \ref{sec:beamforming_frequency}). 
-This approach is probably subject to the same limitations than the time-based focusing approach in addition to being limited to small phase shifts.
-
-\fi

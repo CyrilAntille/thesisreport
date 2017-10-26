@@ -12,16 +12,16 @@ Notice that the points' range varies with angular shift so that they always rema
     \centering
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/1/illustration_scene.png}
-    \caption{Illustration of whole scene}
+    \caption{Illustration of whole imaged scene.}
     \label{fig:image_illustration}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/1/zoom_55mm.png}
-    \caption{Zoom around $55~$mm range}
+    \caption{Illustration of the position set of $s_2$.}
     \label{fig:image_illustration_zoom}
     \end{subfigure}
-	\caption{Illustration of imaged scene with 11 transmit beams and two scatterer points at $40~$mm and $55~$mm radius}
+	\caption[Illustration of imaged scene with two scatterer points $s_1$ and $s_2$ moving along constant radius lines, respectively $40~$mm and $55~$mm radius.]{Illustration of imaged scene with two scatterer points $s_1$ and $s_2$ moving along constant radius lines, respectively $40~$mm and $55~$mm radius. The vertical and diagonal lines represent the trajectory of the $b_{tr} = 11$ transmit beams. The ellipses represent the set of positions of $s_1$ and $s_2$ for the 17 frames combined. Image (a) shows the whole illustration and image (b) is a subset of image (a) around the position set of $s_2$.}
 	\label{fig:frames_illustration}
 \end{figure}
 
@@ -33,16 +33,16 @@ Although image interpolation is common practice before display, it is not applie
     \centering
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/1/DAS_frame1.png}
-        \caption{Scatterer points at $0~$mm azimuth}
+        \caption{Position of $s_1 = (0, 40)~$mm, $s_2 = (0, 55)~$mm.}
         \label{fig:DAS_frame1}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{0.48\linewidth}
         \includegraphics[width=\linewidth]{./images/results/1/DAS_frame2.png}
-        \caption{Scatterer points at $1.2~$mm and $1.65~$mm azimuth}
+        \caption{Position of $s_1 = (1.2, 39.98)~$mm, $s_2 = (1.65, 54.97)~$mm.}
         \label{fig:DAS_frame2}
     \end{subfigure}
-	\caption{DAS beamformed image with 11 transmit beams and two scatterer points at $40~$mm and $55~$mm radius}
+	\caption[DAS beamformed images, with $b_{tr} = b_{re} = 11$ transmit and receive beams, of two scatterer points $s_1$ and $s_2$ at $40~$mm and $55~$mm radius.]{DAS beamformed images, with $b_{tr} = b_{re} = 11$ transmit and receive beams, of two scatterer points $s_1$ and $s_2$ at $40~$mm and $55~$mm radius. The position $(x, y)$ of $s_1$ is $(0, 40)~$mm in (a) and $(1.2, 39.98)~$mm in (b), where $x$ is the offset of $s_1$ relative to the center of the array along the azimuth dimension and $y$ is the offset along the range dimension. The position of $s_2$ is $(0, 55)~$mm in (a) and $(1.65, 54.97)~$mm in (b).}
 	\label{fig:DAS_frame}
 \end{figure}
 
@@ -63,14 +63,14 @@ Given these results and the definition of \textit{scalloping loss} in Section \r
     \centering
     \begin{subfigure}[t]{\linewidth}
         \includegraphics[width=\linewidth]{./images/results/1/loss_vs_shift_40mm.png}
-        \caption{Scatterer point at $40~$mm radius}
+        \caption{Scatterer point at $40~$mm radius.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{\linewidth}
         \includegraphics[width=\linewidth]{./images/results/1/loss_vs_shift_55mm.png}
-        \caption{Scatterer point at $55~$mm radius}
+        \caption{Scatterer point at $55~$mm radius.}
     \end{subfigure}
-	\caption{Normalized backscattered gain of scatterer point shifted 1/8th of the distance between beams per frame}
+	\caption[Normalized backscattered gain of scatterer point shifted 1/8th of the distance between beams per frame.]{Normalized backscattered gain of scatterer point shifted 1/8th of the distance between beams per frame. The scatterer point is located at a constant $40~$mm radius in (a) and $55~$mm radius in (b).}
 	\label{fig:loss_vs_shift}
 \end{figure}
 
@@ -84,7 +84,7 @@ The magnitude of scalloping loss experienced by the IAA approaches are again low
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\linewidth]{./images/results/1/loss_vs_range.png}
-	\caption{Maximum scalloping loss of single point moving at constant radius}
+	\caption{Maximum scalloping loss of single point moving at constant radius $r$, where $r$ varies between $36$ and $56~$mm.}
 	\label{fig:loss_vs_range}
 \end{figure}
 
@@ -113,14 +113,14 @@ As expected from the previous experiments, the IAA-MB approaches are experiencin
     \centering
     \begin{subfigure}[t]{\linewidth}
         \includegraphics[width=\linewidth]{./images/results/1/loss_vs_beams.png}
-        \caption{Whole plot}
+        \caption{Maximum scalloping loss of DAS, MV, IAA-MBSB and IAA-MBMB beamformers for $b_{re} \in [11, 191]$.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{\linewidth}
         \includegraphics[width=\linewidth]{./images/results/1/loss_vs_beams_zoom.png}
-        \caption{Plot focus on $[0, 5]~$dB range}
+        \caption{Maximum scalloping loss of DAS, IAA-MBSB and IAA-MBMB beamformers for $b_{re} \in [31, 191]$.}
     \end{subfigure}
-	\caption{Maximum scalloping loss of single scatterer point at $40~mm$ radius in noiseless medium}
+	\caption[Maximum scalloping loss of single scatterer point at $40~mm$ radius in a noiseless medium with varying number of receive beams $b_{re}$.]{Maximum scalloping loss of single scatterer point at $40~mm$ radius in a noiseless medium with varying number of receive beams $b_{re}$. The maximum scalloping loss values of all beamformers are displayed for $b_{re} \in [11,191]$ in (a). For enhanced visibility, a focus on the DAS, IAA-MBSB and IAA-MBMB values for $b_{re} \in [31, 191]$ is provided in (b).}
 	\label{fig:loss_vs_beams}
 \end{figure}
 
@@ -130,14 +130,14 @@ Since a background with speckle noise is not smooth, different resolution cells 
     \centering
     \begin{subfigure}[t]{\linewidth}
         \includegraphics[width=\linewidth]{./images/results/1/loss_vs_shift_40mm_speckle.png}
-        \caption{Scatterer point at $40~$mm radius}
+        \caption{Scatterer point at $40~$mm radius.}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{\linewidth}
         \includegraphics[width=\linewidth]{./images/results/1/loss_vs_shift_55mm_speckle.png}
-        \caption{Scatterer point at $55~$mm radius}
+        \caption{Scatterer point at $55~$mm radius.}
     \end{subfigure}
-	\caption{Normalized gain of scatterer point shifted 1/8th of distance between beams per frame in speckle background}
+	\caption[Normalized backscattered gain of scatterer point shifted 1/8th of the distance between beams per frame in a speckle background.]{Normalized backscattered gain of scatterer point shifted 1/8th of the distance between beams per frame in a speckle background (seed 2). The scatterer point is located at a constant $40~$mm radius in (a) and $55~$mm radius in (b).}
 	\label{fig:loss_vs_shift_speckle}
 \end{figure}
 
@@ -148,14 +148,14 @@ This can easily be explained by the adaptive nature of the beamformers steered r
     \centering
     \begin{subfigure}[t]{\linewidth}
         \includegraphics[width=\linewidth]{./images/results/1/loss_vs_beams_speckle2.png}
-        \caption{Speckle seed 2}
+        \caption{Maximum scalloping loss for $b_{re} \in [11, 191]$ in a speckle background (seed 2).}
     \end{subfigure}
     \quad
     \begin{subfigure}[t]{\linewidth}
         \includegraphics[width=\linewidth]{./images/results/1/loss_vs_beams_speckle42.png}
-        \caption{Speckle seed 42}
+        \caption{Maximum scalloping loss for $b_{re} \in [11, 191]$ in a speckle background (seed 42).}
     \end{subfigure}
-	\caption{Maximum scalloping loss of single scatterer point at $40~$mm radius in speckle noise}
+	\caption[Maximum scalloping loss of single scatterer point at $40~mm$ radius in a speckle background with varying number of receive beams $b_{re}$.]{Maximum scalloping loss of single scatterer point at $40~mm$ radius in a speckle background with $b_{re} \in [11, 191]$ receive beams. The results with speckle seed 2 are displayed in (a) and those with speckle seed 42 are displayed in (b).}
 	\label{fig:loss_vs_beams_speckle}
 \end{figure}
 
@@ -166,7 +166,7 @@ In practice, the required receive beam density may have to be reduced. This can 
 \begin{figure}[ht]
     \centering
         \includegraphics[width=\linewidth]{./images/results/1/loss_vs_beams_ext.png}
-	\caption{MV Maximum scalloping loss of single scatterer point at $40~$mm radius in different media. MV is in noiseless medium, MV-2 and MV-42 in speckle noise (Seed 2, respectively 42)}
+	\caption{MV Maximum scalloping loss of single scatterer point at $40~$mm radius in different media. MV is in noiseless medium, MV-2 and MV-42 in speckle noise (Seed 2, respectively 42).}
 	\label{fig:loss_vs_beams_ext}
 \end{figure}
 
@@ -182,43 +182,9 @@ In practice, the required receive beam density may have to be reduced. This can 
   IAA-MBMB  &   173     &   101 &   121  \\
   \hline
  \end{tabular}
-\caption{Required number of beams for non-visible scalloping loss}
+\caption{Required number of beams for non-visible scalloping loss.}
 \label{table:num_beams}
 \end{table}
 
 As explained in Section \ref{sec:frames_motion}, the number of transmit beams has an impact on the beamformer's maximum frame rate. With $b_{tr} = 65$, the acquisition time of a single image can be obtained from Equation (\ref{eq:acquisition_time}): $t_{im} = 2 \cdot 0.15 \cdot 65 / 1500 = 13~$ms. In terms of frame rate (Equation (\ref{eq:frame_rate})), this results in a maximum of $f_{im} = 10^4 / (2 \cdot 65) = 76.9$ frames per second.
 It is however important to mention that all images produced in this thesis are relatively small, only $2.5~$cm range and $35^\circ$ angular extent, and are produced with all beams focused at the same radius ($40~$mm). In many applications, bigger images are produced by creating beams with various focal radii. Many applications create images by sequentially transmitting and recording focused beams with a constant focal radius, such as done in this thesis, and repeat the sequence with a new focal radius. Each sequence is often referred to as a \textit{line of focus}. For images with multiple lines of focus, the maximum frame rate can be estimated to that of an image with single line of focus divided by the number of lines of focus.
-
-
-\iffalse
-As explained in Section \ref{sec:frames_motion}, the number of transmit beams has an impact on the beamformer's maximum frame rate. Table \ref{table:max_frame} combines the results of Table \ref{table:num_beams} and Equation \ref{eq:frame_rate}.
-
-\textbf{What kind of frame rate is acceptable for real-time imaging?}
-
-The MV beamformer requires too many transmit beams to both be used in real-time imaging and avoid visible scalloping loss. It is worth mentioning that 981 beams for 35 degrees coverage is well above typical beam densities and such a high number of beams would, on top of the physical acquisition delays, most probably cause significant computational delays. This remark is especially pertinent for the inversion of the covariance matrix estimate $\boldsymbol{\hat{R}}$.
-
-The other beamformers appear to meet decent frame rate requirements for real-time imaging even in worst-case scenarios. However, it is important to mention that all images produced in this thesis are relatively small, only $2.5~$cm in range, and only are only produced with beams focused at the same radius ($40~$mm). In many applications, bigger images are produced by creating beams with various focal radius. Many applications create images by sequentially transmitting and recording focused beams with a constant focal radius, such as done in this thesis, and repeat the sequence with a new focal radius. Each sequence is often referred to as a \textit{line of focus}. For images with multiple lines of focus, the results of Table \ref{table:max_frame} can be extended to such images simply by dividing the frame rates by the number of lines of focus.
-\textbf{What are typical number of focus lines when imaging organs?}
-
-The frame rates of the IAA beamformers can therefore become insufficient for certain applications. Section \ref{sec:res_improvement} proposes improvement approaches and analysis their effects.
-
-\begin{table}[!ht]
-\centering
-\begin{tabular}{| c | c | c | c |}
-  \hline
-  Beamformer &   Without speckle   &   Speckle - seed 2 &   Speckle - seed 42 \\
-  \hline
-  DAS       &   76.9     &   70.4 &   70.4  \\
-  MV        &   5.1      &   13.1 &   13.1  \\
-  IAA-MBSB  &   26.2     &   49.5 &   40.7  \\
-  IAA-MBMB  &   28.9     &   49.5 &   41.3  \\
-  \hline
- \end{tabular}
-\caption{Maximum frame rate to guarantee no visible scalloping loss}
-\label{table:max_frame}
-\end{table}
-
-
-Those figures show that the adaptive beamformers are very sensitive to the presence of speckle noise and are consistently requiring fewer transmit beams to guarantee no visible scalloping loss.
-This can be explained by their adaptive nature, which allows them to adapt the shape of their steered response depending on the recorded wavefield. In this case, they can allow large steered response sidelobes in directions for which no or little energy is recorded in order to minimize its mainlobe width, thus increasing the resolution of the resulting image. The media containing speckle noise offer less freedom to the adaptive beamformers than noiseless ones, which then often results in larger mainlobes. The beams density requirements to avoid visible scalopping loss are therefore dropped
-\fi
