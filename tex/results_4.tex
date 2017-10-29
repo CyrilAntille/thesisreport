@@ -21,8 +21,7 @@ The experiment of Figure \ref{fig:loss_vs_beams}, where the beamformers' maximum
 \end{figure}
 
 Since no beam correction is done, the beamformers are generally experiencing higher scalloping loss than with perfect MLA. However naive MLA converges towards perfect MLA for high beam densities, since little correction is then required.
-For that reason, DAS requires a higher receive beam density $b_{re} = 145$ than with perfect MLA ($b_{re} = 65$), but naive MLA results in roughly the same $b_{re}$ threshold than perfect MLA for the other beamformers.
-
+For that reason, the MV and IAA-MBSB require roughly the same $b_{re}$ threshold to become shift-invariant with SLA, or perfect MLA, and naive MLA, whereas the $b_{re}$ threshold for DAS is significantly higher with naive MLA ($b_{re} = 145$) than with SLA ($b_{re} = 65$).
 We can notice though that the IAA-MBMB beamformer impressively yields a lower $b_{re}$ threshold with naive MLA than with SLA.
 As explained in Section \ref{sec:res_frames_motion}, we can reasonably expect the multibeam beamformers to roughly correct for scalloping loss by combining overlapping beams in directions where scalloping loss occurs.
 However, we did not expect the IAA-MBMB to require fewer receive beams when using MLA without scalloping loss correction than when using SLA.
@@ -33,17 +32,16 @@ For the singlebeam beamformers, the maximum gain of the scatterer point is const
 This makes sense, since the scatterer point is in this case perfectly aligned with both a transmit beam and a receive beam.
 For the minimum gain scene, the naive MLA is logically suffering from higher scalloping loss than SLA, since the transmit beam density is a third of the SLA one and the scalloping loss induced from the angular undersampling of the transmit beams is not corrected for.
 We notice nevertheless that the minimum gain experienced by MLA converges towards that of SLA for high receive (and therefore transmit, since the ratio $b_{re} = 3 \cdot b_{tr}$ is maintained) beam density.
-
 This last comment is also true for the multibeam beamformers.
 The main difference with the singlebeam beamformers is that the maximum gain varies with the beam density.
-For the IAA-MBSB, this variation is minor (less than $1~$dB between $b_{re} = 11$ and $b_{re} = 195$) both with the SLA and MLA approaches.
-The reason for this low variation is that the IAA-MBSB gets its final gain estimates from a single beam (Equation (\ref{eq:sb_output})), even if the set of weights used to produce that estimate are based on the data from multiple beams.
-It may seem counter-intuitive that the maximum gain of the scatterer point decreases as the transmit beam density $b_{tr}$ increases, since the total amount of energy radiated towards that point increases with $b_{tr}$.
-The drop in gain is due to the energy received by the neighboring receive beams. When focusing on the position of the scatterer point, the beamformers try to maximize the energy received from that point while minimizing energy received from other directions.
+Given a receive beam focused towards a scatterer point, the point's gain variation is caused by the neighboring receive beams.
+When focusing on the position of the scatterer point, the beamformers try to maximize the energy received from that point while minimizing energy received from other directions.
 For singlebeam beamformers, each cell of the beamformed image is only based on a single beam, so the energy perceived by neighboring beams does not influence the estimated gain of that cell.
 For multibeam beamformers, given the same image cell, the energy perceived by neighboring beams is included in the covariance matrix estimate and is seen as noise data to minimize.
 Due to the beams' proximity to the direction of focus, the multibeam beamformers may in this case not be able to fully cancel out the noise from the neighboring beams and therefore may yield steered responses with wider, but lower, mainlobes.
 
+For the IAA-MBSB, this variation is minor (less than $1~$dB between $b_{re} = 11$ and $b_{re} = 195$) both with the SLA and MLA approaches.
+The reason for this low variation is that the IAA-MBSB gets its final gain estimates from a single beam (Equation (\ref{eq:sb_output})), even if the set of weights used to produce that estimate are based on the data from multiple beams.
 For the IAA-MBMB beamformer, this behavior is accentuated due to the image cells being formed from the multibeam covariance matrix estimate (Equation (\ref{eq:mb_output})) instead of the time-delayed recorded data from a single receive beam.
 The MLA approach is less sensitive to this gain drop effect than the SLA approach for the same receive beam density $b_{re}$, since the transmit beam density $b_{tr}$ is then lower and therefore less energy from neighboring transmit beams is radiated towards the scatterer point.
 
@@ -95,7 +93,7 @@ The DAS beamformed image of Figure \ref{fig:mla_c} is a flagrant example as this
 
 In every imaged scene, the IAA-MBMB yields impressive results compared to the other beamformers.
 It manages to correct both for the visible scalloping loss and shape distortion induced by the naive MLA approach.
-The IAA-MBMB beamformed images look identical than those of Figure \ref{fig:linear_motion_double} with perfect MLA.
+The IAA-MBMB beamformed images look identical to those of Figure \ref{fig:linear_motion_double} with perfect MLA.
 
 
 \begin{figure}[ht]

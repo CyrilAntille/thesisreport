@@ -3,8 +3,6 @@
 Conventional 2D medical ultrasound imaging is based on analyzing the backscatter 
 (echoes) from multiple, focused, transmitted acoustic beams.
 Most imaging systems are very similar in the way they create and record beams. Their main difference comes from their analysis of the recorded data.
-Adaptive beamformers have been introduced in the 60s as high-resolution beamformers and are still extensively researched to this day. Such beamformers are, in the best case, able to achieve higher resolution than conventional ones. They are however often less reliable, more computationally complex and less intuitive to use, which is why conventional beamformers are often preferred in commercial products.
-
 Traditionally, ultrasound images are created by transmitting beams in various directions and, for each beam, create image samples along its trajectory.
 Often, however, there is a large overlap between the areas covered by the respective beams.
 This phenomena can be used to achieve higher spatial resolution by creating image samples based on multiple beams instead of a single one.
@@ -13,21 +11,10 @@ Some approaches to multibeam beamforming have shown to result in increased abili
 Although those results are very promising, they only cover scenarios where the imaged medium is stationary.
 The primary goal of this thesis is to discover how multibeam beamformers handle tissue motion.
 
-\cite{Asen_shift_invariance} showed that singlebeam beamforming in the presence of tissue motion may result in visible amplitude variations of the scatterer points in motion. The amplitude variations are caused by an effect known as scalloping loss. If those variations are kept below a given visibility threshold, the beamformer is said to be lateral shift-invariant.
-\cite{Asen_shift_invariance} showed that singlebeam beamformers can be made lateral shift-invariant by setting a sufficiently high density of transmit and receive beams.
+\cite{Asen_shift_invariance} showed that singlebeam beamforming in the presence of tissue motion may result in visible amplitude variations of the scatterer points in motion. 
+They also showed that those amplitude variations can be kept below a certain visibility threshold with a sufficiently high density of transmit and receive beams.
 We confirm those results in this thesis and find that this approach also works with multibeam beamformers.
-
-However, a beamformer's image acquisition time, and therefore frame rate, is directly influenced by its transmit beam density.
-Many applications have minimum frame rate requirements, especially real-time imaging applications. This limitation on the transmit beam density may in some applications be too strict to guarantee lateral shift-invariance of a beamformer.
 Furthermore, we show that tissue motion can cause shape distortion of scatterer points in addition to potential amplitude variations, and that the magnitude of this effects increases proportionally with image acquisition time.
-
-A commonly-used approach to reducing image acquisition time while retaining high resolution 
-is parallel-receive beamforming (PRB), also known as multiple-line acquisition (MLA).
-The principle is to allow relatively low transmit beam densities by angular oversampling of the receive beams. However, again due to transmitting and receiving focused beams, receive beams that are not aligned with transmit beams can experience scalloping loss.
-Multiple MLA approaches have been explored, some of which trying to correct for scalloping loss (\cite{prb_approaches}).
-In this thesis, perfect MLA is first used and simulated by running the standard single-beam acquisition (SLA) with angular oversampling on transmit beams as well as receive beams.
-Then a naive approach to MLA, without correction for scalloping loss, is implemented and its sensitivity to tissue motion compared to that of perfect MLA.
-We show that naive MLA is more sensitive to scalloping loss than perfect MLA at low beam densities, but its sensitivity converges towards that of perfect MLA with increasing transmit beam densities.
 
 The conventional DAS beamformer and the adaptive MV beamformer are well known in the medical ultrasound domain and often taken as standards of comparison in academical studies.
 In order to build confidence in our results for multibeam beamformers, the same experiments and analyses are done with the singlebeam DAS and MV beamformers. This also provides a common base with existing studies.
@@ -37,12 +24,15 @@ The multibeam beamformers used in this thesis are using the Iterative Adaptive A
 Several implementations of the IAA exist, so we chose to focus on variants of the IAA beamformer both based on the multibeam covariance matrix estimate and multibeam output (MB) approach (\cite{Jensen_IAA}) during the iteration process.
 In this thesis, we refer to those beamformers as IAA-MB beamformers.
 The variants of IAA-MB implemented in this thesis only differ in their final step of the creation of a beamformed image sample; one variant based on the MB approach (IAA-MBMB) and the other based on the singlebeam output (SB) approach (IAA-MBSB).
-
 We confirm the results from \cite{Jensen_IAA} with the IAA-MB beamformers for static imaged media, but show that the presence of tissue motion can induce distortions that reduce the scatterer point resolvability of the multibeam IAA beamformers below that of MV.
 In extreme cases, the resolvability of IAA-MBMB can even become worst than that of DAS.
-However, we also show than MLA can be used to reduce the distortion effects and maintain high resolvability capacities.
-Furthermore, the IAA-MBMB beamformer impressively corrects for the receive beams misalignment induced by MLA and yields similar performances with naive MLA than with perfect MLA.
 
-Although multibeam beamformers are by nature more sensitive to tissue motion than singlebeam ones, we show that, with an appropriate use of the MLA technique, the IAA-MB beamformers can be made lateral shift-invariant and robust to motion-induced distortion.
+The multibeam IAA beamformers are more sensitive to motion-induced distortions than singlebeam DAS and MV and may require a shorted image acquisition time in order to be robust to tissue motion.
+A commonly-used approach to reducing image acquisition time while retaining high resolution is parallel-receive beamforming (PRB), also known as multiple-line acquisition (MLA).
+The principle of MLA is to allow relatively low transmit beam densities by angular oversampling of the receive beams.
+We show that MLA can be used to reduce motion-induced distortion effects and maintain high resolvability capacities of a beamformer.
+Furthermore, we found that the IAA-MBMB beamformer impressively corrects for the receive beams misalignment induced by MLA.
+
+Although multibeam beamformers are by nature more sensitive to tissue motion than singlebeam ones, we show that, with an appropriate use of the MLA technique, the IAA-MB beamformers can be made robust to motion-induced distortion.
 We think that the multibeam IAA beamformers can globally be made as robust and easy to use as the conventional DAS beamformer, while maintaining high resolution and frame rate capacities.
 
