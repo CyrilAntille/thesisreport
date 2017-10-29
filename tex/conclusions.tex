@@ -2,45 +2,44 @@
 \chapter{Conclusion}
 \label{chap:conclusion}
 Conventional 2D medical ultrasound imaging is based on transmitting focused acoustic beams and recording their echoes from potential scatterer points in the imaged medium.
-The resulting image resolution is directly dependent on the receive beam density $b_{re}$ and mainlobe width, as each receive beam creates a set of image samples along its trajectory.
-The backscatterered signals from scatterer points that are not on a transmit and/or receive beam trajectory can be attenuated and cause scalloping loss.
+Traditionally beams are transmitted sequentially towards a set of focus points at a fixed distance, or radius, to the array's center.
+The transmission process can be iterated for different radii, also known as focus lines.
+For each transmit beam, the array is often dynamically focused towards the same focus point as the transmit beam and the resulting image samples contain information about physical elements in the medium on, or close to, the transmit/receive beam trajectory.
+Many different image acquisition processes have been presented over the years as alternatives to this process. Different approaches can for example transmit multiple beams in parallel, create multiple receive beams per transmit beam or combine multiple receive beams in order to extract spatial information outside of their focus trajectories.
+
+In general, the backscatterered signals from scatterer points that are not on a transmit and/or receive beam trajectory can be attenuated and cause scalloping loss, although different beamformers have different sensitivities to that effect.
 Scalloping loss can become problematic when its magnitude is high enough to cause visible dim of the scatterer points' gain and, in extreme cases, result in them disappearing in the background.
-If a beamformer system is built such that the magnitude of scalloping loss is guaranteed to be below a visibility threshold in all cases, the system is said to be \textit{lateral shift-invariant}.
-When the effects of scalloping loss are visible, the system is often said to be subject to \textit{angular undersampling}, which means that the density of transmit and/or receive beams is too low.
-For single-line acquisition (SLA) systems, the two densities are identical. 
-We have shown that scalloping loss can indeed be reduced by increasing the density of beams.
-As mentioned in Section \ref{sec:frames_motion}, another way to reduce scalloping loss is by increasing the width of the transmit and/or receive beams.
-The choice of beam width is a trade-off between image resolution and scalloping loss sensitivity, whereas the choice of transmit beam density is a trade-off between image resolution, along with scalloping loss sensitivity, and frame rate.
-Increasing a beamformer's transmit beam density reduces its sensitivity to scalloping loss and increases the resolution of its beamformed images, but to the cost of decreased maximum frame rate.
+When producing series of images in presence of tissue motion, scalloping loss is known to potentially result in scatterer points visibly blinking.
 
-Most of the existing studies on motion in ultrasound imaging focus on the effect of motion on multiple image frames. The most visible artifact of motion in that aspect is caused by scalloping loss, which may make scatterer points appear blinking, or even disappearing and re-appearing, from frame to frame.
-We have shown that, with a smart use of MLA, we can make a system lateral-shift invariant while maintaining high resolution and high frame rate capacities.
-In Section \ref{sec:naive_mla}, we found out that even a naive approach to MLA, without correction for scalloping loss, can help that aspect. Furthermore, the IAA-MBMB beamformer proved to be able to automatically correct for it and to give similar performances than with perfect MLA.
+If a beamformer system is built such that the magnitude of scalloping loss is guaranteed to be below a visibility threshold in all cases, the system is said to be lateral shift-invariant.
+When the effects of scalloping loss are visible, the system is often said to be subject to angular undersampling, which means that the density of transmit and/or receive beams is too low.
+We showed that all beamformers used in this thesis, including the IAA-MB approaches, can be made lateral shift-invariant with a sufficiently-high beam density.
+Furthermore, the IAA-MB approaches, despite being high-resolution beamformers, require significantly lower beam densities than that of the MV beamformer.
 
+Most of the existing studies on motion in ultrasound imaging focus on the effect of motion on multiple image frames.
+A high transmit beam density is desirable to limit the scale of scalloping loss, but can result in a high image acquisition than and thus impact the frame rate capacity of a beamformer.
 Another aspect to motion that is often overlooked is its effects within a single frame.
 Since the acquisition of a single frame is not instantaneous, motion in the imaged medium can also result in artifacts due to position shifts between each beam transmission.
-Beamformers based on single-beam covariance matrix estimation are less sensitive to that aspect of motion since each image cell is only based on a transmit single beam.
-Since the pulse signal transmitted by the probe is typically very short (about $1~\mu$s in this thesis), any scatterer point with realistic velocity ($\boldsymbol{v}_s << c$, where $c$ is the speed of propagation of the transmitted signal) can be considered idle while reflecting it.
+The pulse signal transmitted by the probe is typically very short (about $1~\mu$s in this thesis), so any scatterer point with realistic velocity ($\boldsymbol{v}_s << c$, where $c$ is the speed of propagation of the transmitted signal) can be considered idle while reflecting it.
 The main artifact of motion within a single frame is possible distortion of the scatterer point's shape, mostly in the form of dilation or erosion, depending on how many transmit beams hitting it.
-The multibeam beamformers have shown to be relatively more sensitive to motion within frame than single-beam beamformers.
-The IAA-MB algorithms are high-resolution beamformers and can have resolution capacities similar to that of MV for static scenes.
-However we discovered that scatterer points in motion can degrade the resolution capacities of the IAA-MB beamformers to that of DAS, and even lower than DAS for the IAA-MBMB in extreme cases.
+With a relatively high image acquisition time, such distortions can become visible and result in image resolution loss.
+Singlebeam beamformers are relatively robust to that aspect of motion since each image cell is only based on a transmit single beam.
 
-Regardless of the beamformer used, the scatterer points' distortion is not only dependent on their absolute velocity, but also on the image acquisition time.
+Multibeam beamformers produce images whose cells can be computed from multiple transmit and/or receive beams. Due to that property, we predicted multibeam beamformers to be more sensitive to tissue motion within a single frame than singlebeam beamformers.
+We showed that the IAA-MB beamformers are indeed more prone to distortions of the scatterer point's shape than the singlebeam DAS and MV beamformers.
+In extreme cases, the resolution capacity of the IAA-MB beamformers can drop to that of DAS or even worst for the IAA-MBMB approach.
+
 Since in real applications the imaged medium properties are not under our control, the image acquisition time should be kept as low as possible in order to attenuate any distortion of the scatterer points' shapes.
 It seems that there is a choice to make between reducing distortion effects, by keeping the transmit beam density low, and reducing the effects of scalloping loss, by ensuring a transmit beam density high enough. Both issues can also be solved with a low density of wide transmit beams, but to the cost of reduced image resolution.
 An alternative option used in this thesis is multi-line acquisition (MLA), which is the concept of creating multiple receive beams for each transmit beam.
 Since the transducer arrays used in medical ultrasound imaging use dynamic focusing on receive, an increase of the receive beam density only costs computational time.
 In most systems, the data recording and processing can be done simultaneously. Furthermore, data processing can often be made faster than data recording, which is limited by the propagation speed of the transmitted pulses.
 
-Creating a receive beam is simply a way to time-delay data recorded by transducers such that any echo signal coming from the point of focus is aligned and can be summed up coherently. It is therefore only useful to create receive beams in directions where energy is radiated.
-Also since, especially with focused transmit beams, energy is not radiated uniformly across the imaged sector, that variation of energy should ideally be corrected for in the received data in order to have an accurate representation of the imaged medium.
-Assuming that perfect beam correction on receive is possible, the transmit beam density theoretically only has to be high enough to illuminate the whole image sector. The receive beam density can then be set to a value as high as the computational load permits and thus result in a lateral shift-invariant system with optimal image resolution and frame rate.
-
 Given the probe and medium parameters as defined in Section \ref{sec:sim_param}, we estimated the minimum transmit beam density required for the DAS beamformer with SLA to be considered lateral shift-invariant and took it as reference.
-We then used the MLA approach to achieve the minimum receive beam density required for the IAA-MB beamformers to become lateral shift-invariant.
-We showed that the IAA-MB can be made lateral shift-invariant with fewer or equal transmit beam density than DAS with SLA approach, both with perfect MLA simulations and a naive approach to MLA without beam correction.
-The IAA-MBMB beamformer even turned out to be very efficient at beam correction and yielded similar results with both naive MLA and perfect MLA.
+Assuming a transmit beam density high enough to allow for scalloping loss correction, a MLA beamformer can be made shift-invariant with a lower image acquisition time, and therefore higher robustness to tissue motion, than that of a SLA beamformer of same receive beam density.
+Several MLA approaches have be presented over time and some are more efficient than others to correct for scalloping loss for receive beams that are not focused to the same point than the transmit beam they are based on.
+In Section \ref{sec:naive_mla}, we found out that even a naive approach to MLA, without correction for scalloping loss, can help to improve the maximum frame rate of a lateral shift-invariant beamformer.
+In addition, the IAA-MBMB beamformer impressively proved to be able to automatically correct for scalloping loss and to give similar performances than with perfect MLA.
 It is on the other hand more sensitive than the other beamformers to motion within frames, although it might be of little consequences for realistic scatterer point velocities, depending on the image acquisition time.
 
 The IAA-MB beamformers are emerging as robust adaptive beamformers.
