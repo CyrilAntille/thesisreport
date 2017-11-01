@@ -36,7 +36,7 @@ The MV beamformer power output is therefore:
 \label{eq:mv_power}
 \end{equation}
 \noindent
-$\boldsymbol{\tilde{R}}_{\theta, n}$ is often computed from $2T+1 < M$ observations, where $2T+1$ is the number of temporal samples and $M$ number of receiving transducers in the array.  As $rank(\boldsymbol{\tilde{R}}_{\theta, n}) \leq min(2T+1, M)$, the matrix is often rank-deficient, therefore not invertible (\cite{Vignon_Focused}). Furthermore, if not all observations are independent, $rank(\boldsymbol{\tilde{R}}_{\theta, n})$ becomes strictly less than T. Due to this condition, $\boldsymbol{\tilde{R}}_{\theta, n}$ is often pseudo-inverted rather than truly inverted. It must also often be \textit{diagonally loaded} (Section \ref{sec:diagonal_loading}) to ensure a robust (pseudo-)inversion.
+$\boldsymbol{\tilde{R}}_{\theta, n}$ is often computed from $2T+1 < M$ observations, where $2T+1$ is the number of temporal samples and $M$ the number of receiving transducers in the array.  As $rank(\boldsymbol{\tilde{R}}_{\theta, n}) \leq min(2T+1, M)$, the matrix is often rank-deficient, therefore not invertible (\cite{Vignon_Focused}). Furthermore, if not all observations are independent, $rank(\boldsymbol{\tilde{R}}_{\theta, n})$ becomes strictly less than T. Due to this condition, $\boldsymbol{\tilde{R}}_{\theta, n}$ is often pseudo-inverted rather than truly inverted. It must also often be \textit{diagonally loaded} (Section \ref{sec:diagonal_loading}) to ensure a robust (pseudo-)inversion.
 
 The MV approach can result in a major increase in resolution, but not without cost.
 Although narrow beams increase the image resolution, one fundamental drawback is that more beams are required to image the same angular range and avoid \textit{angular undersampling}. Angular undersampling occurs when the angle between two beams' mainlobes becomes so large that it results in angles for which signals are heavily attenuated or suppressed. Scatterer points can then appear weaker or completely disappear from the beamformed image if in between two beams. This signal attenuation effect is often referred to as \textit{scalloping loss}. This effect can be attenuated by forming wider beams and/or more beams.
@@ -239,8 +239,11 @@ As stated in the introduction of this thesis, adaptive beamformers are still now
 
 As the available computational capacities are constantly improving, the computational load issue is becoming less of a concern. It has actually recently been shown that adaptive beamforming (MV) can now be used for real-time imaging when implemented in a Graphics Processing Unit (GPU) framework (\cite{GPU}).
 The introduction of various robustification methods allows for more stable beamformers, often at the cost of reduced resolution capacity and increased computational load. However, those methods have to be precisely calibrated in order to yield optimum results. This typically restrains the use of such beamformers to people trained in the domain of beamforming.
+In order to limit this parametrization burden, new approaches to adaptive beamforming have emerged and are often referred to as \textit{parameter-free} approaches (\cite{Yardibi_nonparametric_IAA, Yardibi, Du_parameter_free, Jensen_IAA}). This thesis builds on the \textit{Iterative Adaptive Approach} (IAA) as presented by \cite{Jensen_IAA}.
 
-In order to limit this parametrization burden, new approaches to adaptive beamforming have emerged and are often referred to as \textit{parameter-free} approaches (\cite{Yardibi_nonparametric_IAA, Yardibi, Du_parameter_free, Jensen_IAA}). This thesis builds on the \textit{Iterative Adaptive Approach} (IAA) as presented by \cite{Jensen_IAA}. IAA is based on the \textit{sparse signal representation} (\cite{Yardibi_nonparametric_IAA}), as it models a number of potential reflector in the imaged medium often much denser than the actual number of sources. The received signal of any potential source $q$ can be modeled as:
+The MV beamformer as presented in Section \ref{sec:mv} creates image samples from local estimates of the recorded signal's covariance matrix $\boldsymbol{R}$.
+IAA takes a different approach and creates image samples by building a model of $\boldsymbol{R}$ and iteratively fitting it to the recorded data.
+IAA is based on the \textit{sparse signal representation} (\cite{Yardibi_nonparametric_IAA}), as it models a number of potential reflector in the imaged medium often much denser than the actual number of sources. The received signal of any potential source $q$ can be modeled as:
 \begin{equation}
     \boldsymbol{y}_q(t) = s_q(t)  \boldsymbol{a}_q,
 \end{equation}
@@ -274,7 +277,7 @@ This initial estimate of $\boldsymbol{P}$ actually corresponds to the output of 
 The iterative stage improves this estimate of $\boldsymbol{P}$ by iteratively using the MV beamformer (Section \ref{sec:MV}):
 \begin{enumerate}
     \item The covariance matrix model $\boldsymbol{\bar{R}}$ is built from Equation (\ref{eq:R_IAA}) using $\boldsymbol{\hat{P}}$.
-    \item For each potential source $q$, a new set of weights $\boldsymbol{w}_q$ is built using the MV beamformer (Equation (\ref{eq:mv_weight})).
+    \item For each potential source $q$, a new set of weights $\boldsymbol{w}_q$ is built from $\boldsymbol{\bar{R}}$ using the MV beamformer (Equation (\ref{eq:mv_weight})).
     \item Those weights $\boldsymbol{w}_q$ are then used to form new estimates of the sources' squared amplitudes:
     \begin{equation}
         \boldsymbol{\hat{P}}_{qq} = \boldsymbol{w}_q^T \boldsymbol{\hat{R}} \boldsymbol{w}_q.
