@@ -241,7 +241,7 @@ As the available computational capacities are constantly improving, the computat
 The introduction of various robustification methods allows for more stable beamformers, often at the cost of reduced resolution capacity and increased computational load. However, those methods have to be precisely calibrated in order to yield optimum results. This typically restrains the use of such beamformers to people trained in the domain of beamforming.
 In order to limit this parametrization burden, new approaches to adaptive beamforming have emerged and are often referred to as \textit{parameter-free} approaches (\cite{Yardibi_nonparametric_IAA, Yardibi, Du_parameter_free, Jensen_IAA}). This thesis builds on the \textit{Iterative Adaptive Approach} (IAA) as presented by \cite{Jensen_IAA}.
 
-The MV beamformer as presented in Section \ref{sec:mv} creates image samples from local estimates of the recorded signal's covariance matrix $\boldsymbol{R}$.
+The MV beamformer as presented in Section \ref{sec:MV} creates image samples from local estimates of the recorded signal's covariance matrix $\boldsymbol{R}$.
 IAA takes a different approach and creates image samples by building a model of $\boldsymbol{R}$ and iteratively fitting it to the recorded data.
 IAA is based on the \textit{sparse signal representation} (\cite{Yardibi_nonparametric_IAA}), as it models a number of potential reflector in the imaged medium often much denser than the actual number of sources. The received signal of any potential source $q$ can be modeled as:
 \begin{equation}

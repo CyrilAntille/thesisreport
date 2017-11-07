@@ -34,19 +34,21 @@ The theoretical goal of forming directional beams is to radiate energy towards a
 A lot of beamformers treat this energy leakage as noise and typically build image samples based on their nearest transmit beam trajectory. Such beamformers are often referred to as \textit{singlebeam} beamformers.
 Another approach to building image samples is to combine the information contained in multiple beams and use this energy leakage to that purpose.
 The beamformers based on this approach are often referred to as \textit{multibeam} beamformers.
-
 Both conventional and adaptive beamformers can be implemented as multibeam beamformers. The IAA beamformers used in this thesis are built as multibeam beamformers. Their performances with the presence of motion in the imaged medium are compared to those of the DAS and MV beamformers. Both DAS and MV are implemented as singlebeam algorithms in order to provide results and analysis comparable to existing studies.
 
-
 Tissue motion in ultrasound imaging is not a new concept and is known to possibly cause visible artifacts in the beamformed images. \cite{Asen_shift_invariance} showed with the MV beamformer that lateral motion of elements in the imaged medium can result in their apparent amplitude or size varying from frame to frame. This effect is caused by angular undersampling and can potentially result in medium elements, or scatterer points, to visibly appear or disappear from one frame to another.
-One of our main objective is to provide a similar analysis on the IAA beamformers, as well as for the DAS and MV beamformers for comparison.
+One of our main objective is to provide a similar analysis for the IAA beamformers, as well as for the DAS and MV beamformers for comparison.
+Given a simulated probe and medium, the objectives of our first experiments are to illustrate the effect of angular undersampling and to estimate under which conditions the magnitude of that effect is highest.
+We then test each beamformer with this worst-case scenario and produce a minimum beam density requirement in order to guarantee non-visible angular undersampling effects.
+We also provide a similar analysis with examples of noisy media more realistic than that of the worst-case scenario.
 
 A scatterer point's motion is often seen as merely a shift in its position from one frame to another. This representation would be accurate if the image acquisition of a single frame was instantaneous.
 Obviously image acquisition is not instantaneous, which means that tissue motion can potentially induce artifacts within a single frame as well.
 That is one aspect of motion that multibeam beamformers are expected to be more sensitive to than singlebeam beamformers, since they combine information from multiple, and potentially all, transmit beams for every image sample.
+We provide an initial exposition to motion within a single frame and explore potential artifacts both for the singlebeam and multibeam beamformers.
+Based on the results of this exploration, as well as those of the experiments on motion between frames, we build a comparison of the beamformers' sensitivity to motion within frames and suggest robustification approaches to tissue motion.
 
-In this thesis, we analyze the effects of motion both within and between frames.
-Even though the analysis done on the IAA beamformers is the most novel part of the thesis, we chose not to solely focus on them, but to pay equal attention to the DAS and MV beamformers. We believe that this approach provides a major confidence factor to the novel results and a very instructive journey into ultrasound imaging in general.
+Even though the analyses done on the IAA beamformers are the most novel part of the thesis, we chose not to solely focus on them, but to pay equal attention to the DAS and MV beamformers. We believe that this approach provides a major confidence factor to the novel results and a very instructive journey into ultrasound imaging in general.
 
 Chapter \ref{chap:background} provides a short introduction to ultrasound imaging and its applications in the medical domain.
 After some necessary explanations on signal propagation and the concept of beamforming, it gives a presentation of conventional and adaptive beamforming along with several robustification methods.
