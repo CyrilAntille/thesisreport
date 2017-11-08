@@ -40,7 +40,7 @@ Furthermore, we consider such beam densities to be too high to be realistically 
 
 The linear motion of a scatterer point is, as explained previously, simulated with a constant shift of its position before each beam transmit and recording. With the MLA approach, the scatterer points should actually only move in between two transmit beams and remain static for receive beams constructed from the same transmit beam. With a MLA coefficient of $MLA_c = b_{re} / b_{tr} = 195 / 65 = 3$, the scatterer points should only be shifted once every three receive beams.
 We have however chosen to have the scatterer point shifted in between all beams for two main reasons.
-First of all, with continuous motion, the results of this section can be extended to MLA approaches with virtually any coefficient value $MLA_c$, including single-line acquisition ($MLA_c = 1$). Secondly, this thesis focuses on worst-case scenarios and continuous motion seems to us to be a bigger divergence from the beamformers' model of static points than partial motion. We do not expect the partial motion implementation to result in additional artifacts.
+First of all, with continuous motion, the results of this section can be extended to MLA approaches with virtually any coefficient value $MLA_c$, including single-line acquisition ($MLA_c = 1$). Secondly, this thesis focuses on worst-case scenarios and continuous motion seems to us to be a bigger divergence from the beamformers' model of static points than partial motion. We do not expect the partial motion implementation to result in additional artifacts for multibeam beamformers than for singlebeam beamformers.
 
 
 \subsection{Single scatterer point in a noiseless medium}
