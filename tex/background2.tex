@@ -245,65 +245,64 @@ The MV beamformer as presented in Section \ref{sec:MV} creates image samples fro
 IAA takes a different approach and creates image samples by building a model of $\boldsymbol{R}$ and iteratively fitting it to the recorded data.
 IAA is based on the \textit{sparse signal representation} (\cite{Yardibi_nonparametric_IAA}), as it models a number of potential reflector in the imaged medium often much denser than the actual number of sources. The received signal of any potential source $q$ can be modeled as:
 \begin{equation}
-    \boldsymbol{y}_q(t) = s_q(t)  \boldsymbol{a}_q,
+    \boldsymbol{\bar{y}}_q(t) = s_q(t)  \boldsymbol{a}_q,
 \end{equation}
 \noindent
-where $s_q(t)$ is the source's signal and $\boldsymbol{a}_q$ is the phase-based steering vector pointing to the location of the source $q$. The covariance matrix of a single source is then:
+where $s_q(t)$ is the source's signal and $\boldsymbol{a}_q$ is the phase-based steering vector pointing to the location of the source $q$. The covariance matrix model of a single source is then:
 \begin{equation}
-    \boldsymbol{R}_q = \boldsymbol{E}[\boldsymbol{y}_q(t) \boldsymbol{y}_q(t)^T] = |s_q(t)|^2 \boldsymbol{a}_q \boldsymbol{a}_q^T.
+    \boldsymbol{\bar{R}}_q = \boldsymbol{E}[\boldsymbol{\bar{y}}_q(t) \boldsymbol{\bar{y}}_q(t)^T] = |s_q(t)|^2 \boldsymbol{a}_q \boldsymbol{a}_q^T.
 \end{equation}
 
 \noindent
-The IAA beamformers follows the sparse signal representation and models $Q$ sources spread densely across the image sector. Assuming those sources are uncorrelated, the total covariance matrix $\boldsymbol{R}$ is the sum of $\boldsymbol{R}_q$ for each source $q$:
+Assuming $Q$ uncorrelated sources spread across the image sector, the total covariance matrix model $\boldsymbol{\bar{R}}$ is the sum of $\boldsymbol{\bar{R}}_q$ for each source $q$:
 \begin{equation}
-    \boldsymbol{R} = \sum_{q=1}^{Q} |s_q|^2 \boldsymbol{a}_q \boldsymbol{a}_q^T = \boldsymbol{A} \boldsymbol{P} \boldsymbol{A}^T,
+    \boldsymbol{\bar{R}} = \sum_{q=1}^{Q} |s_q|^2 \boldsymbol{a}_q \boldsymbol{a}_q^T = \boldsymbol{A} \boldsymbol{P} \boldsymbol{A}^T,
 \label{eq:R_IAA}
 \end{equation}
 \noindent
 where $\boldsymbol{A}$ is the matrix of steering vectors $\boldsymbol{a}_q$ and $\boldsymbol{P}$ is a $Q x Q$ diagonal matrix with the sources' squared amplitudes $|s_q|^2$ along its diagonal.
-The IAA output image $\boldsymbol{Z}$ is formed from the estimated sources amplitudes $|s_q|$. Therefore each image sample $\boldsymbol{Z}_{\theta,n}$ is build from the corresponding $\boldsymbol{P}$ diagonal element $\boldsymbol{P}_{qq}$ for $q$ being the source located at $(\theta,n)$:
-\begin{equation}
-    Z_{\theta,n} = \sqrt{\boldsymbol{P}_{qq}}.
-\label{eq:IAA_output}
-\end{equation}
-\noindent
+
 Given an estimate $\boldsymbol{\hat{R}}$ of the covariance matrix $\boldsymbol{R}$, an initial estimate of $\boldsymbol{P}$ can be built by applying matched spatial filtering:
 \begin{equation}
     \boldsymbol{\hat{P}} = \boldsymbol{A}_n^T \boldsymbol{\hat{R}} \boldsymbol{A}_n.
 \end{equation}
-
 \noindent
 This initial estimate of $\boldsymbol{P}$ actually corresponds to the output of the DAS beamformer (Equation (\ref{eq:das_power})) using the multibeam covariance matrix estimation approach (Section \ref{sec:multibeam}).
-The iterative stage improves this estimate of $\boldsymbol{P}$ by iteratively using the MV beamformer (Section \ref{sec:MV}):
+
+IAA then improves $\boldsymbol{\hat{P}}$ by iteratively minimizing the following weighted least square cost function:
+\begin{equation}
+    \sum_{q=1}^Q || y_q(t) - \bar{y}_q(t) ||^2_{\boldsymbol{\bar{Q}}^{-1}_q},
+\end{equation}
+\noindent
+where $\boldsymbol{\bar{Q}}_q = \boldsymbol{\bar{R}} - P_{qq} \boldsymbol{a}_q \boldsymbol{a}_q^T$ is the covariance matrix of the interference and noise when focusing on the location of source $q$.
+The iterative minimization process is done as follow until a given stop condition is reached:
 \begin{enumerate}
     \item The covariance matrix model $\boldsymbol{\bar{R}}$ is built from Equation (\ref{eq:R_IAA}) using $\boldsymbol{\hat{P}}$.
     \item For each potential source $q$, a new set of weights $\boldsymbol{w}_q$ is built from $\boldsymbol{\bar{R}}$ using the MV beamformer (Equation (\ref{eq:mv_weight})).
     \item Those weights $\boldsymbol{w}_q$ are then used to form new estimates of the sources' squared amplitudes:
     \begin{equation}
         \boldsymbol{\hat{P}}_{qq} = \boldsymbol{w}_q^T \boldsymbol{\hat{R}} \boldsymbol{w}_q.
-    \label{eq:mb_output}
     \end{equation}
 \end{enumerate}
+\noindent
+The iteration stop condition can either be a fixed number of iterations, a convergence threshold or a combination of both.
+The studies by \cite{Yardibi_nonparametric_IAA} and \cite{Jensen_IAA} empirically show reasonable convergences after 5 to 10 iterations.
+It is worth mentioning that the IAA minimization process as explained in this thesis is based on the multibeam (MB) approach, but can also be implemented following the singlebeam approach (\cite{Jensen_IAA}). In order to avoid confusion with existing publications, we refer to this implementation of IAA as IAA-MB.
 
-The last step of the iteration is obviously also based on the multibeam approach, but $\boldsymbol{\hat{P}}_{qq}$ can also be estimated based on the singlebeam approach:
+The IAA minimization problem, much like that of MV, outputs a set of weights $\boldsymbol{w}_q$ for each focus point $q$.
+Those weights can then be used to produce a beamformed image $\boldsymbol{Z}$ either following the singlebeam (SB) approach or the multibeam one.
+In both methods, each image sample $Z_{\theta,n}$ is built from the set of weights $\boldsymbol{w}_q$ for the source $q$ located at $(\theta,n)$.
+With the multibeam approach, $Z_{\theta,n}$ is built from $\boldsymbol{\hat{R}}$:
 \begin{equation}
-    \boldsymbol{\hat{P}}_{qq} = |\boldsymbol{w}_q^T \boldsymbol{\hat{Y}}_q |^2,
+    Z_{\theta,n} = \sqrt{\boldsymbol{w}_q^T \boldsymbol{\hat{R}} \boldsymbol{w}_q}.
+\label{eq:mb_output}
+\end{equation}
+\noindent
+The singlebeam approach, on the other hand, applies $\boldsymbol{w}_q$ directly to the recorded data:
+\begin{equation}
+    Z_{\theta,n} = |\boldsymbol{w}_q^T \boldsymbol{\hat{Y}}_q |,
 \label{eq:sb_output}
 \end{equation}
 \noindent
-where $\boldsymbol{\hat{Y}}_q$ is the set of data recorded by the array's transducers and time- and/or phase-shifted in order to align the focus of the array to the position of source $q$. This approach is referred to as the single-beam (SB) output, whereas Equation (\ref{eq:mb_output}) is referred to as the multibeam compound (MBC) or multibeam (MB) output (\cite{Jensen_multibeam, Jensen_IAA}).
-
-After some iterations, the algorithm converges and $\boldsymbol{\hat{P}}$ can used in Equation (\ref{eq:IAA_output}) to build a beamformed image.
-The iteration stop condition can either be a fixed number of iterations, a convergence threshold or a combination of both.
-The studies by \cite{Yardibi_nonparametric_IAA} and \cite{Jensen_IAA} empirically show reasonable convergences after 5 to 15 iterations (SB: 10-15, MB: 5-10).
-
-Although the choice of SB or MB output approach can be preserved for the last estimate of $\boldsymbol{P}$, it does not have to be either. Regardless of which approach is applied during the iteration stage, the same dilemma occurs when building the beamformed image samples. This combination of choices results in four possible variants of the IAA algorithm:
-\begin{itemize}
-    \item IAA-SB/SB: The SB approach is used both during the iteration stage and the final sources amplitude estimation.
-    \item IAA-SB/MB: The SB approach is used during the iteration stage and the MB approach for the final sources amplitude estimation.
-    \item IAA-MB/SB: The MB approach is used during the iteration stage and the SB approach for the final sources amplitude estimation.
-    \item IAA-MB/MB: The MB approach is used both during the iteration stage and the final sources amplitude estimation.
-\end{itemize}
-\noindent
-In this thesis, we focus on the multibeam output approach during the iteration process, so we only implement the last two variants of the IAA algorithm.
-To avoid confusing, we refer to them as IAA-MBSB, respectively IAA-MBMB, and simply IAA-MB when referring to both approaches.
+where $\boldsymbol{\hat{Y}}_q$ is the set of data recorded by the array's transducers and time- and/or phase-shifted in order to align the focus of the array to the position of source $q$.
+In this thesis, we refer to the IAA-MB variant using Equation (\ref{eq:mb_output}) as IAA-MBMB and the variant using Equation (\ref{eq:sb_output}) as IAA-MBSB.
