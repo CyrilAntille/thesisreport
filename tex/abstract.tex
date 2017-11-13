@@ -8,19 +8,19 @@ Often, however, there is a large overlap between the areas covered by the respec
 This phenomena can be used to achieve higher spatial resolution by creating image samples based on multiple beams instead of a single one.
 Beamformers that use multiple beams per image sample are often referred to as \textit{multibeam} beamformers, as opposed to the traditional \textit{singlebeam} beamformers.
 Some approaches to multibeam beamforming have shown to result in increased ability to resolve scatterer points over their singlebeam counterpart, as well as increased robustness to noise for adaptive beamformers.
-Although those results are very promising, they only cover scenarios where the imaged medium is stationary.
-The primary goal of this thesis is to discover how multibeam beamformers handle tissue motion.
 
 Previous studies showed that singlebeam beamforming in the presence of tissue motion may result in visible amplitude variations of the scatterer points in motion. 
 They also showed that those amplitude variations can be kept below a certain visibility threshold with a sufficiently high density of transmit and receive beams.
 We confirm those results, show that multibeam beamformers can also suffer from visible amplitude variations and find that the robustification approach proposed in this study also works with multibeam beamformers.
-Furthermore, we show that tissue motion can cause shape distortion of scatterer points in addition to potential amplitude variations, and that the magnitude of this effect not only depends on the scatterer points' velocities, but also on the type of beamformer and its image acquisition time.
+Furthermore, we show for both singlebeam and multibeam beamformers that tissue motion can cause shape distortion of scatterer points in addition to potential amplitude variations.
+The magnitude of shape distortion not only depends on the scatterer points' velocities, but also on the type of beamformer and its image acquisition time.
+Multibeam beamformers tend to be more sensitive to that effect than their singlebeam counterpart.
 
 The conventional DAS beamformer and the adaptive MV beamformer are well known in the medical ultrasound domain and often taken as standards of comparison in academical studies.
 In order to build confidence in our results for multibeam beamformers, the same experiments and analyses are done with the singlebeam DAS and MV beamformers. This also provides a common base with existing studies.
 The multibeam beamformers used in this thesis are using the Iterative Adaptive Approach (IAA), which has recently been presented as an alternative adaptive beamforming technique.
 IAA works by building a model of densely-separated potential reflectors in the imaged medium and iteratively fitting the model to the recorded data.
-In this thesis, we implemented two variants of the multibeam IAA beamformer, both based on the multibeam approach during the iteration process and hence referred to as IAA-MB.
+In this thesis, we implement two variants of the multibeam IAA beamformer, both based on the multibeam approach during the iteration process and hence referred to as IAA-MB.
 The variants differ in the final image sample estimate. One is based on the singlebeam output (SB) approach and the other one is based on the multibeam output (MB) approach.
 The two variants are therefore referred to in this thesis as IAA-MBSB, respectively IAA-MBMB.
 
@@ -33,7 +33,7 @@ The multibeam IAA beamformers are more sensitive to motion-induced distortions t
 A commonly-used approach to reducing image acquisition time while retaining high resolution is parallel-receive beamforming (PRB), also known as multiple-line acquisition (MLA).
 The principle of MLA is to allow relatively low transmit beam densities by angular oversampling of the receive beams.
 We show that MLA can be used to reduce motion-induced distortion effects and maintain high resolvability capacities of a beamformer.
-Furthermore, we found that the IAA-MBMB beamformer impressively corrects for the receive beams misalignment induced by MLA.
+Furthermore, we find that the IAA-MBMB beamformer impressively corrects for the receive beams misalignment induced by MLA.
 
 Although multibeam beamformers are by nature more sensitive to tissue motion than singlebeam ones, we show that, with an appropriate use of the MLA technique, the IAA-MB beamformers can be made robust to motion-induced distortion.
 We think that the multibeam IAA beamformers can globally be made as robust and easy to use as the conventional DAS beamformer, while maintaining high resolution and frame rate capacities.
