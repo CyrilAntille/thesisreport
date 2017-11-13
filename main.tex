@@ -1,32 +1,21 @@
 \documentclass[a4paper,UKenglish]{modules/ifimaster}
-%\documentclass[UKenglish]{modules/ifimaster}  %% ... or USenglish or norsk or nynorsk
-\usepackage[utf8]{inputenc}           %% ... or latin1 or applemac
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc,url}
 \urlstyle{sf}
 \usepackage{babel,textcomp,csquotes,modules/duomasterforside,varioref,graphicx}
-%\usepackage[backend=biber,style=numeric-comp]{biblatex}
 \usepackage[CS, 60, LongTitle]{modules/masterfrontpage}
 \usepackage{booktabs, subcaption, amsmath, natbib}
-%\bibliographystyle{unsrtnat}
 \bibliographystyle{apalike}
 
-
-%\addbibresource{tex/refs.bib}
 
 \author{Cyril Antille}
 \title{The effect of tissue motion on multibeam Iterative Adaptive Approach beamforming in medical ultrasound imaging}
 
 \begin{document}
     \masterfrontpage
-    
-    %\duoforside[dept={Department of Informatics},   %% ... or your department
-    %  program={Network and system administration},  %% ... or your programme
-    %  short]                                        %% ... or long
-    
     \frontmatter{}
-    %\par\vspace*{.35\textheight}{\centering Dedicated to someone special\par}
     \include{tex/acknowledgement}
-    \include{tex/abstract}          % include the abstract
+    \include{tex/abstract}
     
     \tableofcontents{}
     \listoffigures{}
@@ -40,12 +29,9 @@
     \include{tex/experiments}
     \include{tex/results_1}
     \include{tex/results_2}
-    %\include{tex/results_3}
-    \include{tex/results_4}
+    \include{tex/results_3}
     \include{tex/conclusions}
     
     \backmatter{}
-    %\appendix
-    %\include{tex/appendix1}
     \bibliography{mybib}
 \end{document}
